@@ -96,7 +96,7 @@ fetch("data.json")
 // Function to update data.json file using GitHub API
 function updateDataFile(jsonData) {
   var url = "https://api.github.com/repos/i5anin/power/contents/data.json";
-  var token = process.env.GITHUB_TOKEN;
+  var token = process.env.HUB_TOKEN;
   var branch = "main";
   var commitMessage = "Update data.json";
 
