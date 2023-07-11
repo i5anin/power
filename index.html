@@ -3,22 +3,20 @@
 
     <head>
         <title>Power Consumption Graph</title>
-        <script src="https://cdn.jsdelivr.net/npm/luxon@latest"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@latest"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0"></script>
     </head>
 
     <body>
         <div style="width: 600px; height: 400px;">
             <canvas id="powerChart"></canvas>
         </div>
-
         <form id="addDataForm">
             <label for="powerInput">Power (kW):</label>
             <input type="number" id="powerInput" name="powerInput" step="0.01">
             <button type="submit">Add Data</button>
         </form>
-
         <script>
             // Initial data
             var data = [
@@ -46,6 +44,7 @@
                 var nextDate = lastDate.plus({ days: i });
                 var nextPower = lastPower + averageChange;
                 predictedData.push({ x: nextDate.toISO(), y: nextPower });
+                lastPower = nextPower; // Update lastPower for the next iteration
             }
 
             // Chart configuration
