@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Power Consumption Graph</title>
+        <script src="https://cdn.jsdelivr.net/npm/luxon@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@latest"></script>
+    </head>
+
+    <body>
+        <div style="width: 600px; height: 400px;">
+            <canvas id="powerChart"></canvas>
+        </div>
+
+        <form id="addDataForm">
+            <label for="powerInput">Power (kW):</label>
+            <input type="number" id="powerInput" name="powerInput" step="0.01">
+            <button type="submit">Add Data</button>
+        </form>
+
+        <script>
+            // Initial data
+            var data = [
+                { x: "2023-07-09T21:13", y: 19 },
+                { x: "2023-07-10T21:57", y: 25.15 },
+                { x: "2023-07-10T22:51", y: 25.83 },
+                { x: "2023-07-11T10:57", y: 27.33 },
+                { x: "2023-07-11T22:56", y: 31.13 },
+                { x: "2023-07-11T23:48", y: 31.51 }
+            ];
+
+            // Calculate average change in power consumption
+            var totalChange = 0;
+            for (var i = 1; i < data.length; i++) {
+                totalChange += data[i].y - data[i - 1].y;
+            }
+            var averageChange = totalChange / (data.length - 1);
+
+            // Generate predicted data
+            var predictedData = [];
+            var lastDataPoint = data[data.length - 1];
+            var lastDate = luxon.DateTime.fromISO(lastDataPoint.x);
+            var lastPower = lastDataPoint.y;
+            for (var i = 1; i <= 7; i++) {
+                var nextDate = lastDate.plus({ days: i });
+                var nextPower = lastPower + averageChange;
+                predictedData.push({ x: nextDate.toISO(), y: nextPower });
+            }
+
+            // Chart configuration
+            var ctx = document.getElementById("powerChart").getContext("2d");
+            var chart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    datasets: [
+                        {
+                            label: "Потребляемая мощность",
+                            data: data,
+                            borderColor: "red",
+                            fill: false
+                        },
+                        {
+                            label: "Прогнозируемая потребляемая мощность",
+                            data: predictedData,
+                            borderColor: "blue",
+                            fill: false,
+                            borderDash: [5, 5]
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: "time",
+                            time: {
+                                tooltipFormat: "yyyy-MM-dd HH:mm",
+                                displayFormats: {
+                                    hour: "HH:mm",
+                                    day: "MMM dd"
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: "Date"
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: "Power (kW)"
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Handle form submission
+            document.getElementById("addDataForm").addEventListener("submit", function (event) {
+                event.preventDefault();
+                var powerInput = document.getElementById("powerInput");
+                var power = parseFloat(powerInput.value);
+                if (!isNaN(power)) {
+                    var now = luxon.DateTime.local();
+                    data.push({ x: now.toISO(), y: power });
+                    chart.update();
+                    powerInput.value = "";
+                }
+            });
+        </script>
+    </body>
+
+</html>
