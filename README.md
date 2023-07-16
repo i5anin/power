@@ -1,3 +1,3 @@
-# [# power](https://i5anin.github.io/power/)
+# [# power](https://i5anin.github.io/min/power/)
 
-# [# sleep](https://i5anin.github.io/power/sleep)
+# [# sleep](https://i5anin.github.io/min/sleep)
