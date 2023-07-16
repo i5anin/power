@@ -1,18 +1,18 @@
-// Load data from JSON file
+// Загрузка данных из файла JSON
 fetch("data.json")
   .then((response) => response.json())
   .then((data) => {
-    // Initial data
+    // Исходные данные
     var data = data;
 
-    // Calculate average change in power consumption
+    // Расчет среднего изменения потребления электроэнергии
     var totalChange = 0;
     for (var i = 1; i < data.length; i++) {
       totalChange += data[i].y - data[i - 1].y;
     }
     var averageChange = totalChange / (data.length - 1);
 
-    // Generate predicted data
+    // Генерация прогнозируемых данных
     var predictedData = [];
     var lastDataPoint = data[data.length - 1];
     var lastDate = luxon.DateTime.fromISO(lastDataPoint.x);
@@ -21,10 +21,10 @@ fetch("data.json")
       var nextDate = lastDate.plus({ days: i });
       var nextPower = lastPower + averageChange;
       predictedData.push({ x: nextDate.toISO(), y: nextPower });
-      lastPower = nextPower; // Update lastPower for the next iteration
+      lastPower = nextPower; // Обновление lastPower для следующей итерации
     }
 
-    // Chart configuration
+    // Конфигурация графика
     var ctx = document.getElementById("powerChart").getContext("2d");
     var chart = new Chart(ctx, {
       type: "line",
@@ -33,13 +33,13 @@ fetch("data.json")
           {
             label: "Потребляемая мощность",
             data: data,
-            borderColor: "#ff5c77", //red
+            borderColor: "#ff5c77", // красный
             fill: false
           },
           {
             label: "Прогнозируемая потребляемая мощность",
             data: predictedData,
-            borderColor: "#2cbdd4", //blue
+            borderColor: "#2cbdd4", // синий
             fill: false,
             borderDash: [5, 5]
           }
@@ -58,22 +58,22 @@ fetch("data.json")
             },
             title: {
               display: true,
-              text: "Date"
+              text: "Дата"
             }
           },
           y: {
             title: {
               display: true,
-              text: "Power (kW)"
+              text: "Мощность (кВт)"
             }
           }
         }
       }
     });
 
-    // Handle form submission
+    // Обработка отправки формы
     document
-      // .getElementById("addDataForm")
+      .getElementById("addDataForm")
       .addEventListener("submit", function (event) {
         event.preventDefault();
         var powerInput = document.getElementById("powerInput");
@@ -83,7 +83,7 @@ fetch("data.json")
           data.push({ x: now.toISO(), y: power });
           chart.update();
 
-          // Update data.json file using GitHub API
+          // Обновление файла data.json с помощью API GitHub
           var jsonData = JSON.stringify(data, null, 2);
           updateDataFile(jsonData);
 
@@ -93,7 +93,7 @@ fetch("data.json")
   })
   .catch((error) => console.error(error));
 
-// Function to update data.json file using GitHub API
+// Функция для обновления файла data.json с помощью API GitHub
 function updateDataFile(jsonData) {
   var url = "https://api.github.com/repos/i5anin/power/contents/data.json";
   var token = process.env.HUB_TOKEN;
@@ -108,13 +108,13 @@ function updateDataFile(jsonData) {
     }
   };
 
-  // Get the current SHA of data.json file
+  // Получение текущего SHA файла data.json
   fetch(url, requestOptions)
     .then((response) => response.json())
     .then((data) => {
       var sha = data.sha;
 
-      // Update data.json file
+      // Обновление файла data.json
       requestOptions.method = "PUT";
       requestOptions.body = JSON.stringify({
         message: commitMessage,
