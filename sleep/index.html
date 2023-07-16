@@ -3,28 +3,40 @@
 
     <head>
         <title>Vue3 Sleep Calculator</title>
-        <script src="https://unpkg.com/vue@3.2.20"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+            crossorigin="anonymous" />
     </head>
 
-    <body>
-        <div id="app">
-            <table>
-                <tr>
-                    <th>Wake up at</th>
-                    <th>Time left to sleep</th>
-                </tr>
-                <tr v-for="time in times" :key="time">
-                    <td>{{ time }}</td>
-                    <td>{{ getTimeLeft(time) }}</td>
-                </tr>
+    <body data-bs-theme="dark">
+        <div id="app" class="container">
+            <p class="fs-2">Текущее время: {{ currentTime.toLocaleTimeString() }}</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Проснуться в</th>
+                        <th>Время, оставшееся до сна</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="time in times" :key="time">
+                        <td class="fs-4">{{ time }}</td>
+                        <td class="fs-4" v-html="getTimeLeft(time)"></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
 
+        <script src="https://unpkg.com/vue@3"></script>
         <script>
             const app = Vue.createApp({
                 data() {
+                    const times = [];
+                    for (let i = 4; i <= 12; i++) {
+                        times.push(`${i}:00`);
+                    }
                     return {
-                        times: ['5:00', '6:00', '7:00', '8:00', '9:00', '10:00'],
+                        times,
                         currentTime: new Date(),
                     };
                 },
@@ -45,37 +57,15 @@
                         const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
                         const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
                         const secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
-                        return `${hoursLeft.toString().padStart(2, '0')}ч:${minutesLeft
-                            .toString()
-                            .padStart(2, '0')}м:${secondsLeft.toString().padStart(2, '0')}c`;
+                        return `<span class="d-inline-block align-middle">${hoursLeft} ч</span> 
+                    <span class="d-inline-block align-middle">${minutesLeft} м</span> 
+                    <span class="d-inline-block align-middle">${secondsLeft} с</span>`;
                     },
                 },
             });
 
             app.mount('#app');
         </script>
-
-        <style scoped>
-            body {
-                background-color: #333;
-                color: #fff;
-            }
-
-            table {
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-            th,
-            td {
-                border: 1px solid #fff;
-                padding: 8px;
-            }
-
-            th {
-                text-align: left;
-            }
-        </style>
     </body>
 
 </html>
