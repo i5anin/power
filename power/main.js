@@ -15,13 +15,14 @@ fetch("data.json")
     // Генерация прогнозируемых данных
     var predictedData = [];
     var lastDataPoint = data[data.length - 1];
-    var lastDate = luxon.DateTime.fromISO(lastDataPoint.x);
+    var lastDate = luxon.DateTime.local().plus({ days: 1 }); // Start from tomorrow
     var lastPower = lastDataPoint.y;
-    for (var i = 1; i <= 7; i++) {
-      var nextDate = lastDate.plus({ days: i });
+    var daysInMonth = lastDate.daysInMonth;
+    for (var i = lastDate.day; i <= daysInMonth; i++) {
+      var nextDate = lastDate.set({ day: i });
       var nextPower = lastPower + averageChange;
       predictedData.push({ x: nextDate.toISO(), y: nextPower });
-      lastPower = nextPower; // Обновление lastPower для следующей итерации
+      lastPower = nextPower; // Update lastPower for the next iteration
     }
 
     // Конфигурация графика
@@ -72,24 +73,22 @@ fetch("data.json")
     });
 
     // Обработка отправки формы
-    document
-      .getElementById("addDataForm")
-      .addEventListener("submit", function (event) {
-        event.preventDefault();
-        var powerInput = document.getElementById("powerInput");
-        var power = parseFloat(powerInput.value);
-        if (!isNaN(power)) {
-          var now = luxon.DateTime.local();
-          data.push({ x: now.toISO(), y: power });
-          chart.update();
+    document.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var powerInput = document.getElementById("powerInput");
+      var power = parseFloat(powerInput.value);
+      if (!isNaN(power)) {
+        var now = luxon.DateTime.local();
+        data.push({ x: now.toISO(), y: power });
+        chart.update();
 
-          // Обновление файла data.json с помощью API GitHub
-          var jsonData = JSON.stringify(data, null, 2);
-          updateDataFile(jsonData);
+        // Обновление файла data.json с помощью API GitHub
+        var jsonData = JSON.stringify(data, null, 2);
+        updateDataFile(jsonData);
 
-          powerInput.value = "";
-        }
-      });
+        powerInput.value = "";
+      }
+    });
   })
   .catch((error) => console.error(error));
 
