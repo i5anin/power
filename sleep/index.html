@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Vue3 Sleep Calculator</title>
+        <script src="https://unpkg.com/vue@3.2.20"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <table>
+                <tr>
+                    <th>Wake up at</th>
+                    <th>Time left to sleep</th>
+                </tr>
+                <tr v-for="time in times" :key="time">
+                    <td>{{ time }}</td>
+                    <td>{{ getTimeLeft(time) }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <script>
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        times: ['5:00', '6:00', '7:00', '8:00', '9:00', '10:00'],
+                        currentTime: new Date(),
+                    };
+                },
+                mounted() {
+                    setInterval(() => {
+                        this.currentTime = new Date();
+                    }, 1000);
+                },
+                methods: {
+                    getTimeLeft(time) {
+                        const [hours, minutes] = time.split(':');
+                        const wakeUpTime = new Date(this.currentTime);
+                        wakeUpTime.setHours(hours, minutes, 0, 0);
+                        if (wakeUpTime < this.currentTime) {
+                            wakeUpTime.setDate(wakeUpTime.getDate() + 1);
+                        }
+                        const timeLeft = wakeUpTime - this.currentTime;
+                        const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
+                        const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                        const secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                        return `${hoursLeft.toString().padStart(2, '0')}ч:${minutesLeft
+                            .toString()
+                            .padStart(2, '0')}м:${secondsLeft.toString().padStart(2, '0')}c`;
+                    },
+                },
+            });
+
+            app.mount('#app');
+        </script>
+
+        <style scoped>
+            body {
+                background-color: #333;
+                color: #fff;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th,
+            td {
+                border: 1px solid #fff;
+                padding: 8px;
+            }
+
+            th {
+                text-align: left;
+            }
+        </style>
+    </body>
+
+</html>
