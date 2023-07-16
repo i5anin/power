@@ -10,7 +10,9 @@
 
     <body data-bs-theme="dark">
         <div id="app" class="container">
-            <p class="fs-2">Текущее время: {{ currentTime.toLocaleTimeString() }}</p>
+            <p class="fs-6">Текущее время:
+            <div class="fs-2">{{ currentTime.toLocaleTimeString() }}</div>
+            </p>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -20,8 +22,8 @@
                 </thead>
                 <tbody>
                     <tr v-for="time in times" :key="time">
-                        <td class="fs-4">{{ time }}</td>
-                        <td class="fs-4" v-html="getTimeLeft(time)"></td>
+                        <td class="fs-5">{{ time }}</td>
+                        <td class="fs-5" v-html="getTimeLeft(time)"></td>
                     </tr>
                 </tbody>
             </table>
