@@ -73,7 +73,7 @@ fetch("data.json")
 
     // Handle form submission
     document
-      .getElementById("addDataForm")
+      // .getElementById("addDataForm")
       .addEventListener("submit", function (event) {
         event.preventDefault();
         var powerInput = document.getElementById("powerInput");
