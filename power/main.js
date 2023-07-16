@@ -33,13 +33,13 @@ fetch("data.json")
           {
             label: "Потребляемая мощность",
             data: data,
-            borderColor: "red",
+            borderColor: "#ff5c77", //red
             fill: false
           },
           {
             label: "Прогнозируемая потребляемая мощность",
             data: predictedData,
-            borderColor: "blue",
+            borderColor: "#2cbdd4", //blue
             fill: false,
             borderDash: [5, 5]
           }
