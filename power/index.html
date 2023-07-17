@@ -12,13 +12,33 @@
     </head>
 
     <body data-bs-theme="dark">
+
         <div class="container">
-            <p>Среднее потребление электроэнергии в течение суток: <span id="averageDayPower"></span> kW</p>
-            <p>Средняя потребляемая мощность в течение ночи: <span id="averageNightPower"></span> kW</p>
-            <p>Среднее энергопотребление за 24 часа: <span id="averageTotalPower"></span> kW</p>
-            <div class="d-flex justify-content-center">
-                <canvas id="powerChart" style="width: 600px; height: 400px;"></canvas>
-            </div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Среднее потребление электроэнергии в течение суток:</td>
+                        <td><span id="averageDayPower"></span> kW</td>
+                    </tr>
+                    <tr>
+                        <td>Средняя потребляемая мощность в течение ночи:</td>
+                        <td><span id="averageNightPower"></span> kW</td>
+                    </tr>
+                    <tr>
+                        <td>Среднее энергопотребление за 24 часа:</td>
+                        <td><span id="averageTotalPower"></span> kW</td>
+                    </tr>
+                    <tr>
+                        <td>Ожидаемое в конце месяца:</td>
+                        <td><span id="expectedEnd"></span> kW</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <canvas id="powerChart" style="width: 600px; height: 400px;"></canvas>
+        </div>
         </div>
 
         <script src="main.js"></script>

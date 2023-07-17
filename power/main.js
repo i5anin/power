@@ -23,8 +23,8 @@ fetch("data.json")
       var nextPower = lastPower + averageChange;
       predictedData.push({ x: nextDate.toISO(), y: nextPower });
       lastPower = nextPower; // Обновление lastPower для следующей итерации
-      console.log(predictedData.length);
     }
+    expectedEnd = predictedData[predictedData.length - 1].y;
 
     // Конфигурация графика
     var ctx = document.getElementById("powerChart").getContext("2d");
@@ -165,4 +165,5 @@ function updateAveragePowerConsumption(data) {
     averageNightPower.toFixed(2); // 2
   document.getElementById("averageTotalPower").textContent =
     averageTotalPower.toFixed(2); // 2.71
+  document.getElementById("expectedEnd").textContent = expectedEnd.toFixed(2); // 2.71
 }
