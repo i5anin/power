@@ -15,14 +15,15 @@ fetch("data.json")
     // Генерация прогнозируемых данных
     var predictedData = [];
     var lastDataPoint = data[data.length - 1];
-    var lastDate = luxon.DateTime.local().plus({ days: 1 }); // Start from tomorrow
+    var lastDate = luxon.DateTime.local().plus({ days: 1 }); // Начните с завтрашнего дня
     var lastPower = lastDataPoint.y;
     var daysInMonth = lastDate.daysInMonth;
     for (var i = lastDate.day; i <= daysInMonth; i++) {
       var nextDate = lastDate.set({ day: i });
       var nextPower = lastPower + averageChange;
       predictedData.push({ x: nextDate.toISO(), y: nextPower });
-      lastPower = nextPower; // Update lastPower for the next iteration
+      lastPower = nextPower; // Обновление lastPower для следующей итерации
+      console.log(predictedData.length);
     }
 
     // Конфигурация графика
@@ -88,12 +89,12 @@ fetch("data.json")
 
         powerInput.value = "";
 
-        // Update the average power consumption values
+        //  Обновление средних значений энергопотребления
         updateAveragePowerConsumption(data);
       }
     });
 
-    // Calculate and display the initial average power consumption values
+    // Рассчитать и отобразить исходные средние значения энергопотребления
     updateAveragePowerConsumption(data);
   })
   .catch((error) => console.error(error));
