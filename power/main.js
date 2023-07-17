@@ -24,8 +24,7 @@ fetch("data.json")
       predictedData.push({ x: nextDate.toISO(), y: nextPower });
       lastPower = nextPower; // Обновление lastPower для следующей итерации
     }
-
-    let expectedEnd = predictedData[predictedData.length - 1].y;
+    expectedEnd = predictedData[predictedData.length - 1].y;
 
     // Конфигурация графика
     var ctx = document.getElementById("powerChart").getContext("2d");
@@ -90,45 +89,75 @@ fetch("data.json")
 
         powerInput.value = "";
 
-        // Обновление средних значений энергопотребления
+        //  Обновление средних значений энергопотребления
         updateAveragePowerConsumption(data);
       }
     });
 
     // Рассчитать и отобразить исходные средние значения энергопотребления
     updateAveragePowerConsumption(data);
-
-    function updateAveragePowerConsumption(data) {
-      // Calculate the average power consumption during the day, night, and over 24 hours
-      var dayPower = 0;
-      var nightPower = 0;
-      var dayCount = 0;
-      var nightCount = 0;
-      for (var i = 0; i < data.length; i++) {
-        var date = luxon.DateTime.fromISO(data[i].x);
-        if (date.hour >= 6 && date.hour < 18) {
-          dayPower += data[i].y;
-          dayCount++;
-        } else {
-          nightPower += data[i].y;
-          nightCount++;
-        }
-      }
-
-      const rate = 5.6; // тариф за электроэнергию в рублях за киловатт-час
-
-      const averageDayPower =
-        dayCount > 0 ? (dayPower / dayCount).toFixed(2) : 0;
-      document.getElementById("averageDayPower").textContent = averageDayPower;
-      const averageDayPowerCost = (averageDayPower * rate).toFixed(2);
-      document.querySelector("#averageDayPower + td span").textContent =
-        averageDayPowerCost;
-      const expectedEnd = predictedData[predictedData.length - 1].y;
-      const expectedEndCost = (expectedEnd * rate).toFixed(2);
-      document.getElementById("expectedEnd").textContent = expectedEnd;
-      //цена в руб
-      document.querySelector("#expectedEnd + td span").textContent =
-        expectedEndCost;
-    }
   })
   .catch((error) => console.error(error));
+
+// Функция для обновления файла data.json с помощью API GitHub
+function updateDataFile(jsonData) {
+  var url = "https://api.github.com/repos/i5anin/power/contents/data.json";
+  var token = process.env.HUB_TOKEN;
+  var branch = "main";
+  var commitMessage = "Update data.json";
+
+  var requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    }
+  };
+
+  // Получение текущего SHA файла data.json
+  fetch(url, requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      var sha = data.sha;
+
+      // Обновление файла data.json
+      requestOptions.method = "PUT";
+      requestOptions.body = JSON.stringify({
+        message: commitMessage,
+        content: btoa(jsonData),
+        sha: sha,
+        branch: branch
+      });
+
+      fetch(url, requestOptions)
+        .then((response) => response.json())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+    })
+    .catch((error) => console.error(error));
+}
+
+// Функция для расчета и отображения среднего потребления электроэнергии
+function updateAveragePowerConsumption(data) {
+  // Calculate the average power consumption during the day, night, and over 24 hours
+  var dayPower = 0;
+  var nightPower = 0;
+  var dayCount = 0;
+  var nightCount = 0;
+  for (var i = 0; i < data.length; i++) {
+    var date = luxon.DateTime.fromISO(data[i].x);
+    if (date.hour >= 6 && date.hour < 18) {
+      dayPower += data[i].y;
+      dayCount++;
+    } else {
+      nightPower += data[i].y;
+      nightCount++;
+    }
+  }
+
+  // Добавьте вычисленные значения на страницу
+  document.getElementById("averageDayPower").textContent = (
+    expectedEnd / 30
+  ).toFixed(2); // 4.71
+  document.getElementById("expectedEnd").textContent = expectedEnd.toFixed(2); // 2.71
+}
