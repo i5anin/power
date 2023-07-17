@@ -17,14 +17,19 @@ fetch("data.json")
     var lastDataPoint = data[data.length - 1];
     var lastDate = luxon.DateTime.local().plus({ days: 1 }); // Начните с завтрашнего дня
     var lastPower = lastDataPoint.y;
-    var daysInMonth = lastDate.daysInMonth;
-    for (var i = lastDate.day; i <= daysInMonth; i++) {
-      var nextDate = lastDate.set({ day: i });
-      var nextPower = lastPower + averageChange;
-      predictedData.push({ x: nextDate.toISO(), y: nextPower });
-      lastPower = nextPower; // Обновление lastPower для следующей итерации
-      console.log(predictedData.length);
-    }
+
+    // Первая точка (завтрашний день)
+    var startDate = lastDate;
+    var startPower = lastPower + averageChange;
+    predictedData.push({ x: startDate.toISO(), y: startPower });
+
+    // Последняя точка (последний день месяца)
+    var endDate = lastDate.set({ day: lastDate.daysInMonth });
+    var endPower =
+      lastPower + averageChange * (lastDate.daysInMonth - lastDate.day);
+    predictedData.push({ x: endDate.toISO(), y: endPower });
+
+    console.log(predictedData.length);
 
     // Конфигурация графика
     var ctx = document.getElementById("powerChart").getContext("2d");
