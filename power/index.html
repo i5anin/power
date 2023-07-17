@@ -12,21 +12,21 @@
     </head>
 
     <body data-bs-theme="dark">
-
         <div class="container">
             <table class="table">
                 <tbody>
                     <tr>
                         <td>Среднее потребление электроэнергии в течение суток:</td>
                         <td><span id="averageDayPower"></span> kW</td>
+                        <td><span id="averageDayPowerCost"></span> руб</td>
                     </tr>
                     <tr>
                         <td>Ожидаемое потребление в конце месяца:</td>
                         <td><span id="expectedEnd"></span> kW</td>
+                        <td><span id="expectedEndCost"></span> руб</td>
                     </tr>
                 </tbody>
             </table>
-
 
             <div class="d-flex justify-content-center">
                 <canvas id="powerChart" style="width: 600px; height: 400px;"></canvas>
