@@ -154,17 +154,10 @@ function updateAveragePowerConsumption(data) {
       nightCount++;
     }
   }
-  var averageDayPower = dayPower / dayCount;
-  var averageNightPower = nightPower / nightCount;
-  var averageTotalPower = (dayPower + nightPower) / (dayCount + nightCount);
 
-  // Add the calculated values to the page
+  // Добавьте вычисленные значения на страницу
   document.getElementById("averageDayPower").textContent = (
     expectedEnd / 30
   ).toFixed(2); // 4.71
-  // document.getElementById("averageNightPower").textContent =
-  //   averageNightPower.toFixed(2); // 2
-  // document.getElementById("averageTotalPower").textContent =
-  //   averageTotalPower.toFixed(2); // 2.71
   document.getElementById("expectedEnd").textContent = expectedEnd.toFixed(2); // 2.71
 }
