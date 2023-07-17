@@ -159,9 +159,9 @@ function updateAveragePowerConsumption(data) {
 
   // Add the calculated values to the page
   document.getElementById("averageDayPower").textContent =
-    averageDayPower.toFixed(2);
+    averageDayPower.toFixed(2); // 4.71
   document.getElementById("averageNightPower").textContent =
-    averageNightPower.toFixed(2);
+    averageNightPower.toFixed(2); // 2
   document.getElementById("averageTotalPower").textContent =
-    averageTotalPower.toFixed(2);
+    averageTotalPower.toFixed(2); // 2.71
 }
