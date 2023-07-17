@@ -87,8 +87,14 @@ fetch("data.json")
         updateDataFile(jsonData);
 
         powerInput.value = "";
+
+        // Update the average power consumption values
+        updateAveragePowerConsumption(data);
       }
     });
+
+    // Calculate and display the initial average power consumption values
+    updateAveragePowerConsumption(data);
   })
   .catch((error) => console.error(error));
 
@@ -128,4 +134,34 @@ function updateDataFile(jsonData) {
         .catch((error) => console.error(error));
     })
     .catch((error) => console.error(error));
+}
+
+// Функция для расчета и отображения среднего потребления электроэнергии
+function updateAveragePowerConsumption(data) {
+  // Calculate the average power consumption during the day, night, and over 24 hours
+  var dayPower = 0;
+  var nightPower = 0;
+  var dayCount = 0;
+  var nightCount = 0;
+  for (var i = 0; i < data.length; i++) {
+    var date = luxon.DateTime.fromISO(data[i].x);
+    if (date.hour >= 6 && date.hour < 18) {
+      dayPower += data[i].y;
+      dayCount++;
+    } else {
+      nightPower += data[i].y;
+      nightCount++;
+    }
+  }
+  var averageDayPower = dayPower / dayCount;
+  var averageNightPower = nightPower / nightCount;
+  var averageTotalPower = (dayPower + nightPower) / (dayCount + nightCount);
+
+  // Add the calculated values to the page
+  document.getElementById("averageDayPower").textContent =
+    averageDayPower.toFixed(2);
+  document.getElementById("averageNightPower").textContent =
+    averageNightPower.toFixed(2);
+  document.getElementById("averageTotalPower").textContent =
+    averageTotalPower.toFixed(2);
 }

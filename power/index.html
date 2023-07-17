@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>Power Consumption Graph</title>
+        <title>График энергопотребления</title>
         <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.0"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0"></script>
@@ -13,8 +13,9 @@
 
     <body data-bs-theme="dark">
         <div class="container">
-
-
+            <p>Среднее потребление электроэнергии в течение суток: <span id="averageDayPower"></span> kW</p>
+            <p>Средняя потребляемая мощность в течение ночи: <span id="averageNightPower"></span> kW</p>
+            <p>Среднее энергопотребление за 24 часа: <span id="averageTotalPower"></span> kW</p>
             <div class="d-flex justify-content-center">
                 <canvas id="powerChart" style="width: 600px; height: 400px;"></canvas>
             </div>
