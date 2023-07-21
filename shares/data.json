@@ -1,18 +1,44 @@
-[
-  {
-    "shares": {
+{
+  "shares": [
+    {
       "label": "GAZP",
       "book_value": 200,
-      "quantity": 100,
+      "quantity": 10,
       "currency": "RUB"
     }
-  },
-  {
-    "crypto": {
+  ],
+  "funds": [
+    {
+      "label": "FXDE",
+      "book_value": 29.43,
+      "quantity": 1,
+      "currency": "RUB"
+    },
+    {
+      "label": "TMOS",
+      "book_value": 5.06,
+      "quantity": 126,
+      "currency": "RUB"
+    },
+    {
+      "label": "TSPX",
+      "book_value": 29.43,
+      "quantity": 3,
+      "currency": "RUB"
+    },
+    {
+      "label": "TECH",
+      "book_value": 8.15,
+      "quantity": 2,
+      "currency": "RUB"
+    }
+  ],
+  "crypto": [
+    {
       "label": "BTC",
       "book_value": 20000,
       "quantity": 12,
       "currency": "USD"
     }
-  }
-]
+  ]
+}

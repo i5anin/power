@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>Stock and Bitcoin Data</title>
+        <title>Stock and Crypto Data</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
             crossorigin="anonymous" />
@@ -10,25 +10,72 @@
 
     <body>
         <div id="app" class="container">
-            <h1>Stock and Bitcoin Data</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Label</th>
-                        <th>Book Value</th>
-                        <th>Current Price</th>
-                        <th>Change</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in data" :key="item.label">
-                        <td>{{ item.label }}</td>
-                        <td>{{ item.book_value }} {{ item.currency }}</td>
-                        <td>{{ item.current_price }} {{ item.currency }}</td>
-                        <td>{{ item.change }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h1>Stock and Crypto Data</h1>
+            <div v-if="data.shares.length > 0">
+                <h2>Shares</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Label</th>
+                            <th>Book Value</th>
+                            <th>Current Price</th>
+                            <th>Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in data.shares" :key="item.label">
+                            <td>{{ item.label }}</td>
+                            <td>{{ item.book_value }} {{ item.currency }}</td>
+                            <td>{{ item.current_price }} {{ item.currency }}</td>
+                            <td>{{ item.change }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div v-if="data.funds.length > 0">
+                <h2>Funds</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Label</th>
+                            <th>Book Value</th>
+                            <th>Current Price</th>
+                            <th>Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in data.funds" :key="item.label">
+                            <td>{{ item.label }}</td>
+                            <td>{{ item.book_value }} {{ item.currency }}</td>
+                            <td>{{ item.current_price }} {{ item.currency }}</td>
+                            <td>{{ item.change }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div v-if="data.crypto.length > 0">
+                <h2>Crypto</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Label</th>
+                            <th>Book Value</th>
+                            <th>Current Price</th>
+                            <th>Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in data.crypto" :key="item.label">
+                            <td>{{ item.label }}</td>
+                            <td>{{ item.book_value }} {{ item.currency }}</td>
+                            <td>{{ item.current_price }} {{ item.currency }}</td>
+                            <td>{{ item.change }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <script src="https://unpkg.com/vue@3"></script>
