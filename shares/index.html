@@ -11,10 +11,24 @@
     <body>
         <div id="app" class="container">
             <h1>Stock and Bitcoin Data</h1>
-            <h2>Gazprom Stock Data</h2>
-            <pre>{{ gazpromData }}</pre>
-            <h2>Bitcoin Price</h2>
-            <p>{{ bitcoinPrice }}</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th>Book Value</th>
+                        <th>Current Price</th>
+                        <th>Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in data" :key="item.label">
+                        <td>{{ item.label }}</td>
+                        <td>{{ item.book_value }}</td>
+                        <td>{{ item.current_price }}</td>
+                        <td>{{ item.change }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <script src="https://unpkg.com/vue@3"></script>
@@ -22,13 +36,38 @@
             const app = Vue.createApp({
                 data() {
                     return {
-                        gazpromData: "",
-                        bitcoinPrice: "",
+                        data: [],
                     };
                 },
                 async mounted() {
-                    this.gazpromData = await getStockData("GAZP");
-                    this.bitcoinPrice = await getBitcoinPrice();
+                    const response = await fetch("data.json");
+                    const data = await response.json();
+
+                    for (const item of data) {
+                        if (item.shares) {
+                            const stockData = await getStockData(item.shares.label);
+                            this.data.push({
+                                label: item.shares.label,
+                                book_value: item.shares.book_value,
+                                current_price: stockData.marketdata.data[0][11],
+                                change:
+                                    ((stockData.marketdata.data[0][11] - item.shares.book_value) /
+                                        item.shares.book_value) *
+                                    100,
+                            });
+                        } else if (item.crypto) {
+                            const cryptoPrice = await getCryptoPrice(item.crypto.label);
+                            this.data.push({
+                                label: item.crypto.label,
+                                book_value: item.crypto.book_value,
+                                current_price: cryptoPrice,
+                                change:
+                                    ((cryptoPrice - item.crypto.book_value) /
+                                        item.crypto.book_value) *
+                                    100,
+                            });
+                        }
+                    }
                 },
             });
 
@@ -37,15 +76,15 @@
                     `https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/${ticker}.json`
                 );
                 const data = await response.json();
-                return JSON.stringify(data, null, 2);
+                return data;
             }
 
-            async function getBitcoinPrice() {
+            async function getCryptoPrice(symbol) {
                 const response = await fetch(
-                    "https://api.coindesk.com/v1/bpi/currentprice.json"
+                    `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`
                 );
                 const data = await response.json();
-                return data.bpi.USD.rate_float;
+                return parseFloat(data.price);
             }
 
             app.mount("#app");
