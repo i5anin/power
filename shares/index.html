@@ -87,6 +87,15 @@
                 return parseFloat(data.price);
             }
 
+            // Определите предпочтительную цветовую схему пользователя (темная или светлая) и установите соответствующую тему для страницы.
+            const theme =
+                window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "dark"
+                    : "light";
+
+            // Установите атрибут 'data-bs-theme' в теге <body> для применения выбранной темы (темной или светлой).
+            document.body.setAttribute("data-bs-theme", theme);
+
             app.mount("#app");
         </script>
     </body>

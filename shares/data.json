@@ -3,14 +3,16 @@
     "shares": {
       "label": "GAZP",
       "book_value": 200,
-      "quantity": 100
+      "quantity": 100,
+      "currency": "RUB"
     }
   },
   {
     "crypto": {
       "label": "BTC",
       "book_value": 20000,
-      "quantity": 12
+      "quantity": 12,
+      "currency": "USD"
     }
   }
 ]
