@@ -6,33 +6,25 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
             crossorigin="anonymous" />
-        <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js"></script>
     </head>
 
     <body>
         <div id="app" class="container">
-            <div class="mb-3">
-                <label for="language-select" class="form-label">Language:</label>
-                <select id="language-select" class="form-select" v-model="language" @change="changeLanguage">
-                    <option value="en">English</option>
-                    <option value="ru">Русский</option>
-                </select>
-            </div>
-            <h1>{{ t("title") }}</h1>
+            <h1>Stock and Bitcoin Data</h1>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>{{ t("label") }}</th>
-                        <th>{{ t("bookValue") }}</th>
-                        <th>{{ t("currentPrice") }}</th>
-                        <th>{{ t("change") }}</th>
+                        <th>Label</th>
+                        <th>Book Value</th>
+                        <th>Current Price</th>
+                        <th>Change</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="item in data" :key="item.label">
                         <td>{{ item.label }}</td>
-                        <td>{{ item.book_value }}</td>
-                        <td>{{ item.current_price }}</td>
+                        <td>{{ item.book_value }} {{ item.currency }}</td>
+                        <td>{{ item.current_price }} {{ item.currency }}</td>
                         <td>{{ item.change }}</td>
                     </tr>
                 </tbody>
@@ -40,103 +32,7 @@
         </div>
 
         <script src="https://unpkg.com/vue@3"></script>
-        <script>
-            const app = Vue.createApp({
-                data() {
-                    return {
-                        data: [],
-                        language: "en",
-                    };
-                },
-                async mounted() {
-                    await this.initTranslations();
-                    await this.loadData();
-                },
-                methods: {
-                    async initTranslations() {
-                        await i18next.init({
-                            lng: this.language,
-                            resources: {
-                                en: {
-                                    translation: {
-                                        title: "Stock and Bitcoin Data",
-                                        label: "Label",
-                                        bookValue: "Book Value",
-                                        currentPrice: "Current Price",
-                                        change: "Change",
-                                    },
-                                },
-                                ru: {
-                                    translation: {
-                                        title: "Данные об акциях и биткойне",
-                                        label: "Метка",
-                                        bookValue: "Балансовая стоимость",
-                                        currentPrice: "Текущая цена",
-                                        change: "Изменение",
-                                    },
-                                },
-                            },
-                        });
-                    },
-                    async loadData() {
-                        const response = await fetch("data.json");
-                        const data = await response.json();
-
-                        for (const item of data) {
-                            if (item.shares) {
-                                const stockData = await getStockData(item.shares.label);
-                                this.data.push({
-                                    label: item.shares.label,
-                                    book_value: item.shares.book_value,
-                                    current_price: stockData.marketdata.data[0][11],
-                                    change:
-                                        ((stockData.marketdata.data[0][11] -
-                                            item.shares.book_value) /
-                                            item.shares.book_value) *
-                                        100,
-                                });
-                            } else if (item.crypto) {
-                                const cryptoPrice = await getCryptoPrice(item.crypto.label);
-                                this.data.push({
-                                    label: item.crypto.label,
-                                    book_value: item.crypto.book_value,
-                                    current_price: cryptoPrice,
-                                    change:
-                                        ((cryptoPrice - item.crypto.book_value) /
-                                            item.crypto.book_value) *
-                                        100,
-                                });
-                            }
-                        }
-                    },
-                    async changeLanguage() {
-                        await i18next.changeLanguage(this.language);
-                        this.$forceUpdate();
-                    },
-                    t(key) {
-                        return i18next.t(key);
-                    },
-                },
-            });
-
-            async function getStockData(ticker) {
-                const response = await fetch(
-                    `https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/${ticker}.json`
-                );
-                const data = await response.json();
-                return data;
-            }
-
-            async function getCryptoPrice(symbol) {
-                const response = await fetch(
-                    `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`
-                );
-                const data = await response.json();
-                return parseFloat(data.price);
-            }
-
-            app.mount("#app");
-        </script>
+        <script src="main.js"></script>
     </body>
 
 </html>
