@@ -111,6 +111,7 @@
                     },
                     async changeLanguage() {
                         await i18next.changeLanguage(this.language);
+                        this.$forceUpdate();
                     },
                     t(key) {
                         return i18next.t(key);
