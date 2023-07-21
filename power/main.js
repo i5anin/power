@@ -171,3 +171,12 @@ function updateAveragePowerConsumption(data) {
     expectedEnd * tariff
   ).toFixed(2); // 2.71*5,6
 }
+
+// Определите предпочтительную цветовую схему пользователя (темная или светлая) и установите соответствующую тему для страницы.
+const theme =
+  window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+
+// Установите атрибут 'data-bs-theme' в теге <body> для применения выбранной темы (темной или светлой).
+document.body.setAttribute("data-bs-theme", theme);
