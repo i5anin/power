@@ -1,7 +1,9 @@
 const TelegramBot = require("node-telegram-bot-api");
 const fs = require("fs");
 
-const token = "YOUR_TELEGRAM_BOT_TOKEN";
+const dotenv = require("dotenv");
+dotenv.config();
+const token = process.env.TELEGRAM_BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 let data = [];
@@ -24,4 +26,14 @@ bot.on("message", (msg) => {
 process.on("SIGINT", function () {
   fs.writeFileSync("data.json", JSON.stringify(data));
   process.exit();
+});
+
+bot.onText(/\/delete/, (msg) => {
+  const chatId = msg.chat.id;
+  if (data.length > 0) {
+    data.pop();
+    bot.sendMessage(chatId, "Последняя запись удалена");
+  } else {
+    bot.sendMessage(chatId, "Нет данных для удаления");
+  }
 });
