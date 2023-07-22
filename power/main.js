@@ -1,5 +1,5 @@
 // Загрузка данных из файла JSON
-fetch("data.json")
+fetch("../data.json")
   .then((response) => response.json())
   .then((data) => {
     // Исходные данные
