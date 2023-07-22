@@ -157,7 +157,7 @@ function updateAveragePowerConsumption(data) {
 
   let tariff = 5.6;
 
-  // Добавьте вычисленные значения на страницу
+  // Добавить вычисленные значения на страницу
   document.getElementById("averageDayPower").textContent = (
     expectedEnd / 30
   ).toFixed(2); // 4.71
