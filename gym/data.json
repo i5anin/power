@@ -1,0 +1,52 @@
+{
+  "01": {
+    "date": "25.07.2023",
+    "day_of_week": "ВТ",
+    "start_time": "18:30",
+    "end_time": "19:34",
+    "total_time": null,
+    "type": "спина и руки(бицепс)",
+    "exercises": [
+      {
+        "name": "Подтягивания",
+        "description": "хват руки под углом к груди",
+        "sets": [
+          { "weight": 0, "reps": 6 },
+          { "weight": 0, "reps": 6 },
+          { "weight": 0, "reps": 6 },
+          { "weight": 0, "reps": 6 },
+          { "weight": 0, "reps": 6 }
+        ]
+      },
+      {
+        "name": "Тяга с упором в 30гр",
+        "description": "вперед за плечи назад руки 130гр ближе к телу",
+        "sets": [
+          { "weight": 5, "reps": 15 },
+          { "weight": 7, "reps": 15 },
+          { "weight": 9, "reps": 15 },
+          { "weight": 10, "reps": 15 }
+        ]
+      }
+    ]
+  },
+  "02": {
+    "date": "25.07.2023",
+    "day_of_week": "ВТ",
+    "start_time": "18:30",
+    "end_time": "19:34",
+    "total_time": null,
+    "type": "грудь и руки(трицепс)",
+    "exercises": [
+      {
+        "name": "",
+        "description": "",
+        "sets": []
+      },
+      {
+        "name": "",
+        "sets": []
+      }
+    ]
+  }
+}

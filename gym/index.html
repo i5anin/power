@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Workout Tracker</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div id="app" class="container">
+            <div v-for="(workout, id) in workouts" :key="id" class="my-3">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Номер:</th>
+                            <th scope="col">Дата:</th>
+                            <th scope="col">День недели:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ id }}</td>
+                            <th scope="row">{{ workout.date }}</th>
+                            <td>{{ workout.day_of_week }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <!-- <p class="fs-2">Тип: {{ workout.type }}</p> -->
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Начало:</th>
+                            <th scope="col">Окончание:</th>
+                            <th scope="col">Всего:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">{{ workout.start_time }}</th>
+                            <td>{{ workout.end_time }}</td>
+                            <td>{{ total_time}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div v-for="(exercise, index) in workout.exercises" :key="index">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Упражнения</th>
+                                <th scope="col">Подход 1</th>
+                                <th scope="col">Подход 2</th>
+                                <th scope="col">Подход 3</th>
+                                <th scope="col">Подход 4</th>
+                                <th scope="col">Подход 5</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(exercise, index) in exercises" :key="index">
+                                <td>{{ index + 1 }}</td>
+                                <td>
+                                    <h3>{{ exercise.name }}</h3>
+                                    <p>Описание: {{ exercise.description }}</p>
+                                </td>
+                                <td>{{ exercise.name }}</td>
+                                <td v-for="(set, index) in exercise.sets" :key="index">{{ set.weight }}*{{ set.reps }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vue.js 3 -->
+        <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- Bootstrap 5.3 -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+
+        <!-- Your code -->
+        <script>
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        workouts: {}
+                    };
+                },
+                mounted() {
+                    fetch('data.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            this.workouts = data;
+                        });
+                }
+            });
+            app.mount("#app");
+        </script>
+    </body>
+
+</html>
