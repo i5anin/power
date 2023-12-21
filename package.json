@@ -1,5 +1,11 @@
 {
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node your-script.js"
+  },
   "dependencies": {
-    "chalk": "^5.3.0"
+    "chalk": "^4.0.0"
   }
 }
