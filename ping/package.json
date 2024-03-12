@@ -1,0 +1,16 @@
+{
+  "name": "network-ping-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"No tests yet!\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "net-ping": "^1.2.3"
+  }
+}

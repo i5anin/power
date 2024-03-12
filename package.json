@@ -6,6 +6,7 @@
     "start": "node tree\\tree.js"
   },
   "dependencies": {
-    "chalk": "^4.0.0"
+    "chalk": "^4.0.0",
+    "net-ping": "^1.2.3"
   }
 }
