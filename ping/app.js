@@ -1,59 +1,43 @@
 const ping = require('net-ping');
 
-// Создаем сессию с опциями по умолчанию
 let session = ping.createSession();
 
-// Функция для пинга одного IP-адреса
-function pingHost(host) {
+const devices = [
+    { name: "Умная розетка Tuya Smart Inc.", ip: "192.168.3.154" },
+    { name: "TL-WR720N", ip: "192.168.3.46" },
+    { name: "Робот-пылесос Dreame", ip: "192.168.3.163" },
+    { name: "Камера GWIPC-6880065736", ip: "192.168.3.101" }
+];
+
+// Структура для хранения результатов
+let pingResults = {};
+
+function pingHost(device) {
     return new Promise((resolve, reject) => {
-        session.pingHost(host, function (error, target, sent, rcvd) {
-            let ms = rcvd - sent;
-            if (error) {
-                if (error instanceof ping.RequestTimedOutError) {
-                    resolve({ host: target, status: 'Not reachable' });
-                } else {
-                    resolve({ host: target, status: 'Error', error: error.toString() });
-                }
-            } else {
-                resolve({ host: target, status: 'Alive', time: ms });
-            }
+        session.pingHost(device.ip, (error, target, sent, received) => {
+            const latency = error ? NaN : received - sent;
+            resolve({ name: device.name, ip: device.ip, status: error ? 'Not reachable' : 'Alive', latency: latency });
         });
     });
 }
 
-// Функция для пинга диапазона IP-адресов
-async function pingRange(startIp, endIp) {
-    let results = [];
+async function pingDevices() {
+    console.log("Starting ping test...");
+    const results = await Promise.all(devices.map(device => pingHost(device)));
 
-    // Преобразуем IP-адреса в числа для удобства итерации
-    let start = ipToInt(startIp);
-    let end = ipToInt(endIp);
+    // Обновление результатов
+    results.forEach(result => {
+        if (!pingResults[result.name]) {
+            pingResults[result.name] = [];
+        }
+        pingResults[result.name].push({timestamp: new Date(), ...result});
+    });
 
-    for (let i = start; i <= end; i++) {
-        let ip = intToIp(i);
-        let result = await pingHost(ip);
-        results.push(result);
-        console.log(result);
-    }
-
-    return results;
+    console.log("Ping test completed");
+    // Здесь можно добавить логику для отображения результатов в виде таблицы
+    console.table(results);
 }
 
-// Вспомогательная функция для преобразования IP в число
-function ipToInt(ip) {
-    return ip.split('.').reduce(function(ipInt, octet) {
-        return (ipInt << 8) + parseInt(octet, 10);
-    }, 0) >>> 0;
-}
-
-// Вспомогательная функция для преобразования числа обратно в IP
-function intToIp(int) {
-    return [int >>> 24, (int >>> 16) & 255, (int >>> 8) & 255, int & 255].join('.');
-}
-
-// Пример использования
-pingRange('192.168.1.1', '192.168.1.10').then(results => {
-    console.log('Ping test completed:', results);
-}).catch(err => {
-    console.error(err);
-});
+// Планировщик запусков
+setInterval(pingDevices, 600000);
+pingDevices();
