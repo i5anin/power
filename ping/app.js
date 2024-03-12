@@ -23,7 +23,7 @@ const table = grid.set(0, 0, 12, 12, contrib.table, {
     columnWidth: [24, 15, 15, 8, 8, 8, 8, 8, 8] // Corrected: Ширина каждого столбца (added one more for the 9th column)
 });
 
-
+const pingHistory = {};
 // Начальное заполнение таблицы
 table.setData({
     headers: ['Name', 'IP', 'Status', 'Latency', 'Avg', 'Avg10', 'Avg100', 'Max', 'Min'],
@@ -43,12 +43,22 @@ async function updatePingData() {
         let res = await ping.promise.probe(device.ip, { timeout: 10 });
         let status = res.alive ? 'Alive' : 'Not reachable';
         let latency = res.time !== 'unknown' ? res.time.toString() : 'N/A';
-        // Здесь должна быть логика расчёта статистики, пока заполняем заглушками
-        let avg = 'N/A', avg10 = 'N/A', avg100 = 'N/A', max = 'N/A', min = 'N/A';
 
-        return [device.name, device.ip, status, latency, avg, avg10, avg100, max, min];
+        // Инициализация или обновление истории для устройства
+        if (!pingHistory[device.ip]) {
+            pingHistory[device.ip] = [];
+        }
+        if (res.time !== 'unknown') {
+            pingHistory[device.ip].push(res.time);
+        }
+
+        // Базовая логика для расчета статистики (пример для среднего значения)
+        let avg = pingHistory[device.ip].length > 0 ? pingHistory[device.ip].reduce((a, b) => a + b, 0) / pingHistory[device.ip].length : 'N/A';
+
+        // Здесь добавьте расчеты для Avg10, Avg100, Max, Min
+
+        return [device.name, device.ip, status, latency, avg, 'N/A', 'N/A', 'N/A', 'N/A'];
     }));
-
     // Обновление данных таблицы и перерисовка экрана
     table.setData({
         headers: ['Name', 'IP', 'Status', 'Latency', 'Avg', 'Avg10', 'Avg100', 'Max', 'Min'],
