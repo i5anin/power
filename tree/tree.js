@@ -11,6 +11,7 @@ function getBranchSymbols(isLast) {
 function getColorByExtension(fileName) {
   if (fileName.endsWith(".vue")) return chalk.green;
   if (fileName.endsWith(".js")) return chalk.yellow;
+  if (fileName.endsWith(".ts")) return chalk.cyan;
   return chalk.white;
 }
 
@@ -35,13 +36,13 @@ function listFiles(dir, prefix = "") {
 function readDirectory(dir) {
   try {
     return fs
-      .readdirSync(dir)
-      .map((name) => ({
-        name,
-        path: path.join(dir, name),
-        isDirectory: fs.statSync(path.join(dir, name)).isDirectory()
-      }))
-      .sort((a, b) => sortItems(a, b));
+        .readdirSync(dir)
+        .map((name) => ({
+          name,
+          path: path.join(dir, name),
+          isDirectory: fs.statSync(path.join(dir, name)).isDirectory()
+        }))
+        .sort((a, b) => sortItems(a, b));
   } catch (err) {
     console.error(chalk.red(`Error reading directory ${dir}: ${err.message}`));
     return null;
@@ -58,7 +59,7 @@ function sortItems(a, b) {
 // Функция для обработки директории
 function handleDirectory(item, prefix, branchSymbol, isLast) {
   const contents = fs.readdirSync(item.path);
-  const color = contents.length === 0 ? chalk.red : chalk.blue;
+  const color = contents.length > 0 ? chalk.blue : chalk.red; // Исправлено условие
   console.log(color(prefix + branchSymbol + item.name));
   if (contents.length > 0) {
     listFiles(item.path, prefix + (isLast ? "    " : "|   "));
@@ -72,5 +73,5 @@ function handleFile(item, prefix, branchSymbol) {
 }
 
 // Главная функция
-const directory = "S:/development/soft.vue.pf-forum/src"; // Используйте свой путь
+const directory = "S:/development/min"; // Используйте свой путь
 listFiles(directory);

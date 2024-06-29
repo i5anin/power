@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node ./tree/tree.js"
+    "start": "node tree.js"
   },
   "dependencies": {
     "chalk": "^4.0.0",
