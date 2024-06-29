@@ -35,14 +35,19 @@ function listFiles(dir, prefix = "") {
 // Функция для чтения содержимого директории
 function readDirectory(dir) {
   try {
-    return fs
-        .readdirSync(dir)
-        .map((name) => ({
-          name,
-          path: path.join(dir, name),
-          isDirectory: fs.statSync(path.join(dir, name)).isDirectory()
-        }))
-        .sort((a, b) => sortItems(a, b));
+    let items = fs
+        .readdirSync(dir, { withFileTypes: true })
+        .filter(dirent => !dirent.name.startsWith('.')) // Исключаем скрытые файлы и папки
+        .map((dirent) => ({
+          name: dirent.name,
+          path: path.join(dir, dirent.name),
+          isDirectory: dirent.isDirectory()
+        }));
+
+    // Рекурсивно исключаем вложенные 'node_modules'
+    items = items.filter(item => !item.name.startsWith('node_modules'));
+
+    return items.sort((a, b) => sortItems(a, b));
   } catch (err) {
     console.error(chalk.red(`Error reading directory ${dir}: ${err.message}`));
     return null;
