@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "chalk": "^4.0.0",
+    "dotenv": "^16.4.5",
     "net-ping": "^1.2.3"
   }
 }

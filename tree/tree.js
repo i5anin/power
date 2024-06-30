@@ -1,6 +1,9 @@
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Функция для получения символов ветвления
 function getBranchSymbols(isLast) {
@@ -37,15 +40,15 @@ function readDirectory(dir) {
   try {
     let items = fs
         .readdirSync(dir, { withFileTypes: true })
-        .filter(dirent => !dirent.name.startsWith('.')) // Исключаем скрытые файлы и папки
+        .filter((dirent) => !dirent.name.startsWith(".")) // Исключаем скрытые файлы и папки
         .map((dirent) => ({
           name: dirent.name,
           path: path.join(dir, dirent.name),
-          isDirectory: dirent.isDirectory()
+          isDirectory: dirent.isDirectory(),
         }));
 
     // Рекурсивно исключаем вложенные 'node_modules'
-    items = items.filter(item => !item.name.startsWith('node_modules'));
+    items = items.filter((item) => !item.name.startsWith("node_modules"));
 
     return items.sort((a, b) => sortItems(a, b));
   } catch (err) {
@@ -78,5 +81,9 @@ function handleFile(item, prefix, branchSymbol) {
 }
 
 // Главная функция
-const directory = "S:/development/min"; // Используйте свой путь
-listFiles(directory);
+const directory = process.env.DIRECTORY;
+if (directory) {
+  listFiles(directory);
+} else {
+  console.error(chalk.red("Переменная окружения DIRECTORY не определена."));
+}
