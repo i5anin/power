@@ -63,10 +63,10 @@ const req = https.request(options, (res) => {
       const jsonData = JSON.parse(buffer.toString());
       console.log(`Balance Coins: ${jsonData.clickerUser.balanceCoins}`);
 
-      for (let i = 0; i < 3; i++) {
-        // выведет 0, затем 1, затем 2
-        alert(i);
-      }
+      // for (let i = 0; i < 3; i++) {
+      //   // выведет 0, затем 1, затем 2
+      //   alert(i);
+      // }
 
       // Получаем текущую дату и время в нужном формате
       const currentDate = new Date();
