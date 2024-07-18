@@ -32,7 +32,7 @@ const options = {
 };
 
 const data = JSON.stringify({
-  availableTaps: 0, // остаток
+  availableTaps: 0, // осаток
   count: 18000, // клики
   timestamp: Math.floor(Date.now() / 1000),
 });
@@ -61,29 +61,7 @@ const req = https.request(options, (res) => {
 
       const jsonData = JSON.parse(buffer.toString());
       console.log(`Balance Coins: ${jsonData.clickerUser.balanceCoins}`);
-
-      const boosts = jsonData.clickerUser.boosts;
-      const upgrades = jsonData.clickerUser.upgrades;
-
-      let formatBoosts = [];
-      if (boosts) {
-        formatBoosts = Object.keys(boosts).map((key) => {
-          return `id: "${boosts[key].id}", lvl: ${boosts[key].level}, lastUpgradeAt: ${boosts[key].lastUpgradeAt}`;
-        });
-      }
-
-      let formatUpgrades = [];
-      if (upgrades) {
-        formatUpgrades = Object.keys(upgrades).map((key) => {
-          return `id: "${upgrades[key].id}", lvl: ${upgrades[key].level}, lastUpgradeAt: ${upgrades[key].lastUpgradeAt}`;
-        });
-      }
-
-      console.log("Boosts:");
-      formatBoosts.forEach((boost) => console.log(boost));
-
-      console.log("Upgrades:");
-      formatUpgrades.forEach((upgrade) => console.log(upgrade));
+      console.log(JSON.stringify(jsonData.clickerUser, null, 2));
     } catch (error) {
       console.error("Ошибка парсинга JSON:", error);
     }
