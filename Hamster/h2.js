@@ -8,7 +8,7 @@ const options = {
   headers: {
     "Content-Type": "application/json",
     Authorization:
-      "Bearer 1721286018267pTT5u2xltkvWbpvEjmFYIxFK3cD3RyOEkr05QjSRzmbLucVnu5PcWU9PsgUJCnT5390895078", // Замените на ваш актуальный токен
+      "Bearer 1721289506775rN4EWfZj6fAYcxzC8rGYhdQGaFHCdHTGKA2Q3PrJ2nB2DlGsP0LXpxFSEWpTFZBL6522743169", // Замените на ваш актуальный токен
     Accept: "application/json",
     "Accept-Encoding": "gzip, deflate, br, zstd",
     "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
