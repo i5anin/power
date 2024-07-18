@@ -1,4 +1,5 @@
-const https = require("https");
+import https from "https";
+import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 
 const options = {
   hostname: "api.hamsterkombatgame.io",
@@ -10,7 +11,7 @@ const options = {
     Authorization:
       "Bearer 1721289506775rN4EWfZj6fAYcxzC8rGYhdQGaFHCdHTGKA2Q3PrJ2nB2DlGsP0LXpxFSEWpTFZBL6522743169", // Замените на ваш актуальный токен
     Accept: "application/json",
-    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "Accept-Encoding": "gzip, deflate, br",
     "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
     "Cache-Control": "no-cache",
     Dnt: "1",
@@ -31,23 +32,34 @@ const options = {
 };
 
 const data = JSON.stringify({
-  availableTaps: 9676, // Замените на ваше значение availableTaps
-  count: 18,
+  availableTaps: 0, // Замените на ваше значение availableTaps
+  count: 100,
   timestamp: Math.floor(Date.now() / 1000),
 });
 
 const req = https.request(options, (res) => {
   console.log(`statusCode: ${res.statusCode}`);
 
-  let responseData = "";
+  let responseData = [];
 
   res.on("data", (chunk) => {
-    responseData += chunk;
+    responseData.push(chunk);
   });
 
   res.on("end", () => {
     try {
-      const jsonData = JSON.parse(responseData);
+      let buffer = Buffer.concat(responseData);
+      const encoding = res.headers["content-encoding"];
+
+      if (encoding === "gzip") {
+        buffer = gunzipSync(buffer);
+      } else if (encoding === "deflate") {
+        buffer = inflateSync(buffer);
+      } else if (encoding === "br") {
+        buffer = brotliDecompressSync(buffer);
+      }
+
+      const jsonData = JSON.parse(buffer.toString());
       console.log(JSON.stringify(jsonData, null, 2));
     } catch (error) {
       console.error("Ошибка парсинга JSON:", error);
