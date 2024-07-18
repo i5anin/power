@@ -3,6 +3,66 @@ import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 import fs from "fs";
 import { headers } from "./config.js";
 
+// Функция для получения баланса
+async function getBalance() {
+  return new Promise((resolve, reject) => {
+    // Данные для запроса баланса
+    const data = JSON.stringify({
+      availableTaps: 0, // осаток
+      count: 18000, // клики
+      timestamp: Math.floor(Date.now() / 1000),
+    });
+
+    const options = {
+      hostname: "api.hamsterkombatgame.io",
+      port: 443,
+      path: "/clicker/tap",
+      method: "POST",
+      headers: {
+        ...headers,
+        "Content-Length": data.length, // Добавляем Content-Length
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      console.log("Статус код запроса баланса:", res.statusCode); // Добавьте эту строку
+      let responseData = [];
+
+      res.on("data", (chunk) => {
+        responseData.push(chunk);
+      });
+
+      res.on("end", () => {
+        try {
+          let buffer = Buffer.concat(responseData);
+          const encoding = res.headers["content-encoding"];
+
+          if (encoding === "gzip") {
+            buffer = gunzipSync(buffer);
+          } else if (encoding === "deflate") {
+            buffer = inflateSync(buffer);
+          } else if (encoding === "br") {
+            buffer = brotliDecompressSync(buffer);
+          }
+
+          const jsonData = JSON.parse(buffer.toString());
+          resolve(jsonData.balanceCoins);
+        } catch (error) {
+          console.error("Ошибка парсинга JSON:", error);
+          reject(error);
+        }
+      });
+    });
+
+    req.on("error", (error) => {
+      console.error("Request error:", error);
+      reject(error);
+    });
+
+    req.end();
+  });
+}
+
 function getUpgradesForBuy() {
   return new Promise((resolve, reject) => {
     const options = {
@@ -122,10 +182,11 @@ function buyUpgrade(upgradeId) {
 async function main() {
   while (true) {
     try {
-      const data = await getUpgradesForBuy();
+      // Получаем баланс
+      const balanceCoins = await getBalance();
+      console.log(`Текущий баланс: ${balanceCoins}`);
 
-      // Проверяем доступные средства
-      const balanceCoins = data.balanceCoins;
+      const data = await getUpgradesForBuy();
 
       const availableUpgrades = data.upgradesForBuy
         .filter(
@@ -133,7 +194,7 @@ async function main() {
             upgrade.cooldownSeconds === 0 &&
             upgrade.isAvailable &&
             !upgrade.isExpired &&
-            upgrade.price <= balanceCoins // <-- Проверка на достаточность средств
+            upgrade.price <= balanceCoins
         )
         .map((upgrade) => ({
           ...upgrade,
@@ -163,7 +224,7 @@ async function main() {
     }
 
     // Пауза перед следующей итерацией
-    await new Promise((resolve) => setTimeout(resolve, 100000));
+    await new Promise((resolve) => setTimeout(resolve, 5000));
   }
 }
 
