@@ -6,7 +6,7 @@ import { headers } from "./config.js"; // Импорт options из config.js
 const options = {
   hostname: "api.hamsterkombatgame.io",
   port: 443,
-  path: "/clicker/buy-upgrade",
+  path: "/clicker/upgrades-for-buy",
   method: "POST",
   headers: headers, // Используем экспортированные headers
 };
