@@ -12,7 +12,7 @@ const options = {
 };
 
 const data = JSON.stringify({
-  upgradeId: "medium",
+  upgradeId: "hamster_ai",
   timestamp: Math.floor(Date.now() / 1000),
 });
 

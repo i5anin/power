@@ -59,7 +59,9 @@ const req = https.request(options, (res) => {
       console.log("Все акупаемые апгрейды:");
       sortedUpgrades.forEach((upgrade, index) => {
         console.log(
-          `${index + 1}. ${upgrade.section}: ${upgrade.name} - окупаемость: ${
+          `${index + 1}. ${upgrade.section}: ${upgrade.name} ${
+            upgrade.price
+          } - окупаемость: ${
             upgrade.paybackPeriod !== Infinity
               ? upgrade.paybackPeriod.toFixed(2) + " ч."
               : "бесконечность"
