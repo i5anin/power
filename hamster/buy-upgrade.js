@@ -12,7 +12,7 @@ const options = {
 };
 
 const data = JSON.stringify({
-  upgradeId: "hamster_ai",
+  upgradeId: "development_hub_mumbai", // todo: сюда вставить самый доступные
   timestamp: Math.floor(Date.now() / 1000),
 });
 

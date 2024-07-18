@@ -83,13 +83,14 @@ const req = https.request(options, (res) => {
       console.log("Доступные для покупки апгрейды:");
       sortedUpgrades.forEach((upgrade, index) => {
         console.log(
-          `${index + 1}. ${upgrade.section}: ${upgrade.name} ${
-            upgrade.price
-          } - окупаемость: ${
-            upgrade.paybackPeriod !== Infinity
-              ? upgrade.paybackPeriod.toFixed(2) + " ч."
-              : "бесконечность"
-          } ${!upgrade.isAvailable ? "(недоступно)" : ""}`
+          `${index + 1}. ` +
+            `${upgrade.section}: ` +
+            `${upgrade.name} ${upgrade.price} - окупаемость: ${
+              upgrade.paybackPeriod !== Infinity
+                ? upgrade.paybackPeriod.toFixed(2) + " ч."
+                : "бесконечность"
+            } ${!upgrade.isAvailable ? "(недоступно)" : ""}` +
+            upgrade.name
         );
       });
     } catch (error) {
