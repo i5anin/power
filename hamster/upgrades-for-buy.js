@@ -42,26 +42,30 @@ const req = https.request(options, (res) => {
 
       const upgrades = jsonData.upgradesForBuy;
 
-      // Находим самые акупаемые апгрейды
-      const topUpgrades = upgrades
-        .filter((upgrade) => upgrade.isAvailable) // Фильтруем доступные для покупки
-        .map((upgrade) => ({
-          ...upgrade,
-          paybackPeriod: upgrade.price / upgrade.profitPerHourDelta, // Вычисляем период окупаемости
-        }))
-        .sort((a, b) => a.paybackPeriod - b.paybackPeriod); // Сортируем по периоду окупаемости
+      // Создаем массив объектов с информацией об апгрейдах и периоде окупаемости
+      const upgradesWithPayback = upgrades.map((upgrade) => ({
+        ...upgrade,
+        paybackPeriod: upgrade.profitPerHourDelta
+          ? upgrade.price / upgrade.profitPerHourDelta
+          : Infinity, // Если прирост прибыли 0, устанавливаем бесконечный период окупаемости
+      }));
 
-      // Выводим информацию о самых акупаемых апгрейдах
-      console.log("Топ самых акупаемых апгрейдов:");
-      topUpgrades.forEach((upgrade) => {
+      // Сортируем апгрейды по периоду окупаемости
+      const sortedUpgrades = upgradesWithPayback.sort(
+        (a, b) => a.paybackPeriod - b.paybackPeriod
+      );
+
+      // Выводим информацию о  всех апгрейдах с нумерацией
+      console.log("Все акупаемые апгрейды:");
+      sortedUpgrades.forEach((upgrade, index) => {
         console.log(
-          `- ${upgrade.section}:` +
-            `- ${upgrade.name}:` +
-            `окупаемость ${upgrade.paybackPeriod.toFixed(2)} ч.`
+          `${index + 1}. ${upgrade.section}: ${upgrade.name} - окупаемость: ${
+            upgrade.paybackPeriod !== Infinity
+              ? upgrade.paybackPeriod.toFixed(2) + " ч."
+              : "бесконечность"
+          } ${!upgrade.isAvailable ? "(недоступно)" : ""}`
         );
       });
-
-      // Добавьте код для сохранения данных в файл, если необходимо
     } catch (error) {
       console.error("Ошибка парсинга JSON:", error);
     }
