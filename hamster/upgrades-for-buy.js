@@ -61,19 +61,13 @@ const req = https.request(options, (res) => {
         }
       });
 
-      if (res.statusCode === 400) {
-        console.error("Ошибка:", jsonData.message);
-        return;
-      }
-
-      // TODO GPT показывай только cooldownSeconds = 0
-
-      const upgrades = jsonData.upgradesForBuy.filter(
-        (upgrade) => !upgrade.isExpired
-      ); // Фильтруем истёкшие апгрейды
+      // Фильтруем апгрейды с cooldownSeconds = 0
+      const availableUpgrades = jsonData.upgradesForBuy.filter(
+        (upgrade) => upgrade.cooldownSeconds === 0 && !upgrade.isExpired
+      );
 
       // Создаем массив объектов с информацией об апгрейдах и периоде окупаемости
-      const upgradesWithPayback = upgrades.map((upgrade) => ({
+      const upgradesWithPayback = availableUpgrades.map((upgrade) => ({
         ...upgrade,
         paybackPeriod: upgrade.profitPerHour
           ? upgrade.price / upgrade.profitPerHour
@@ -86,7 +80,7 @@ const req = https.request(options, (res) => {
       );
 
       // Выводим информацию о  всех апгрейдах с нумерацией
-      console.log("Все акупаемые апгрейды:");
+      console.log("Доступные для покупки апгрейды:");
       sortedUpgrades.forEach((upgrade, index) => {
         console.log(
           `${index + 1}. ${upgrade.section}: ${upgrade.name} ${
