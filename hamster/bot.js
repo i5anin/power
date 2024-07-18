@@ -163,8 +163,8 @@ async function main() {
       console.error("Ошибка в главном цикле:", error);
     }
 
-    // Пауза перед следующей итерацией
-    await new Promise((resolve) => setTimeout(resolve, 50000));
+    // Пауза перед следующей итерацией Каждые 20 минут
+    await new Promise((resolve) => setTimeout(resolve, 1200000));
   }
 }
 

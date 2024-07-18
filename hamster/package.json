@@ -5,5 +5,7 @@
   "scripts": {
     "start": "node ./tree/tree.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "cli-table": "^0.3.11"
+  }
 }

@@ -1,3 +1,5 @@
+//Доступные для покупки апгрейды
+
 import https from "https";
 import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 import fs from "fs";
@@ -89,8 +91,7 @@ const req = https.request(options, (res) => {
               upgrade.paybackPeriod !== Infinity
                 ? upgrade.paybackPeriod.toFixed(2) + " ч."
                 : "бесконечность"
-            } ${!upgrade.isAvailable ? "(недоступно)" : ""}` +
-            upgrade.name
+            } ${!upgrade.isAvailable ? "(недоступно)" : ""}`
         );
       });
     } catch (error) {
