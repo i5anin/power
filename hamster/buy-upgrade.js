@@ -1,10 +1,11 @@
 import https from "https";
 import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
+import fs from "fs";
 
 const options = {
   hostname: "api.hamsterkombatgame.io",
   port: 443,
-  path: "/clicker/tap",
+  path: "/clicker/buy-upgrade",
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -32,8 +33,7 @@ const options = {
 };
 
 const data = JSON.stringify({
-  availableTaps: 0, // осаток
-  count: 18000, // клики
+  upgradeId: "oracle",
   timestamp: Math.floor(Date.now() / 1000),
 });
 
@@ -60,8 +60,31 @@ const req = https.request(options, (res) => {
       }
 
       const jsonData = JSON.parse(buffer.toString());
-      console.log(`Balance Coins: ${jsonData.clickerUser.balanceCoins}`);
-      console.log(JSON.stringify(jsonData.clickerUser, null, 2));
+
+      // Получаем текущую дату и время в нужном формате
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getFullYear()}-${(
+        "0" +
+        (currentDate.getMonth() + 1)
+      ).slice(-2)}-${("0" + currentDate.getDate()).slice(
+        -2
+      )} ${currentDate.getHours()} ${currentDate.getMinutes()} ${currentDate.getSeconds()}`;
+
+      // Создаем имя файла с датой
+      const fileName = `json/buy-upgrade_${formattedDate}.json`;
+
+      // Записываем данные в файл
+      fs.writeFile(
+        fileName,
+        JSON.stringify(jsonData.clickerUser, null, 2),
+        (err) => {
+          if (err) {
+            console.error("Ошибка записи в файл:", err);
+          } else {
+            console.log(`Данные успешно записаны в файл ${fileName}`);
+          }
+        }
+      );
     } catch (error) {
       console.error("Ошибка парсинга JSON:", error);
     }

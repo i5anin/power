@@ -1,0 +1,106 @@
+import https from "https";
+import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
+import fs from "fs";
+
+const options = {
+  hostname: "api.hamsterkombatgame.io",
+  port: 443,
+  path: "/clicker/tap",
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization:
+      "Bearer 1721286018267pTT5u2xltkvWbpvEjmFYIxFK3cD3RyOEkr05QjSRzmbLucVnu5PcWU9PsgUJCnT5390895078", // Замените на ваш актуальный токен
+    Accept: "application/json",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Cache-Control": "no-cache",
+    Dnt: "1",
+    Origin: "https://hamsterkombatgame.io",
+    Pragma: "no-cache",
+    Priority: "u=1, i",
+    Referer: "https://hamsterkombatgame.io/",
+    "Sec-Ch-Ua":
+      '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
+    "Sec-Ch-Ua-Mobile": "?0",
+    "Sec-Ch-Ua-Platform": '"Windows"',
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "same-site",
+    "User-Agent":
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+  },
+};
+
+const data = JSON.stringify({
+  availableTaps: 0, // осаток
+  count: 18000, // клики
+  timestamp: Math.floor(Date.now() / 1000),
+});
+
+const req = https.request(options, (res) => {
+  console.log(`statusCode: ${res.statusCode}`);
+
+  let responseData = [];
+
+  res.on("data", (chunk) => {
+    responseData.push(chunk);
+  });
+
+  res.on("end", () => {
+    try {
+      let buffer = Buffer.concat(responseData);
+      const encoding = res.headers["content-encoding"];
+
+      if (encoding === "gzip") {
+        buffer = gunzipSync(buffer);
+      } else if (encoding === "deflate") {
+        buffer = inflateSync(buffer);
+      } else if (encoding === "br") {
+        buffer = brotliDecompressSync(buffer);
+      }
+
+      const jsonData = JSON.parse(buffer.toString());
+      console.log(`Balance Coins: ${jsonData.clickerUser.balanceCoins}`);
+
+      for (let i = 0; i < 3; i++) {
+        // выведет 0, затем 1, затем 2
+        alert(i);
+      }
+
+      // Получаем текущую дату и время в нужном формате
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getFullYear()}-${(
+        "0" +
+        (currentDate.getMonth() + 1)
+      ).slice(-2)}-${("0" + currentDate.getDate()).slice(
+        -2
+      )} ${currentDate.getHours()} ${currentDate.getMinutes()} ${currentDate.getSeconds()}`;
+
+      // Создаем имя файла с датой
+      const fileName = `json/clickerUser_${formattedDate}.json`;
+
+      // Записываем данные в файл
+      fs.writeFile(
+        fileName,
+        JSON.stringify(jsonData.clickerUser, null, 2),
+        (err) => {
+          if (err) {
+            console.error("Ошибка записи в файл:", err);
+          } else {
+            console.log(`Данные успешно записаны в файл ${fileName}`);
+          }
+        }
+      );
+    } catch (error) {
+      console.error("Ошибка парсинга JSON:", error);
+    }
+  });
+});
+
+req.on("error", (error) => {
+  console.error("Request error:", error);
+});
+
+req.write(data);
+req.end();
