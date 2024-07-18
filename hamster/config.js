@@ -1,7 +1,7 @@
 export const headers = {
   "Content-Type": "application/json",
   Authorization:
-    "Bearer 1721289506775rN4EWfZj6fAYcxzC8rGYhdQGaFHCdHTGKA2Q3PrJ2nB2DlGsP0LXpxFSEWpTFZBL6522743169",
+    "Bearer 1721286018267pTT5u2xltkvWbpvEjmFYIxFK3cD3RyOEkr05QjSRzmbLucVnu5PcWU9PsgUJCnT5390895078",
   Accept: "application/json",
   "Accept-Encoding": "gzip, deflate, br",
   "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -21,3 +21,7 @@ export const headers = {
   "User-Agent":
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
 };
+
+// Bearer 1721286018267pTT5u2xltkvWbpvEjmFYIxFK3cD3RyOEkr05QjSRzmbLucVnu5PcWU9PsgUJCnT5390895078
+
+// Bearer 1721289506775rN4EWfZj6fAYcxzC8rGYhdQGaFHCdHTGKA2Q3PrJ2nB2DlGsP0LXpxFSEWpTFZBL6522743169
