@@ -6,16 +6,10 @@ import { headers } from "./config.js"; // Импорт options из config.js
 const options = {
   hostname: "api.hamsterkombatgame.io",
   port: 443,
-  path: "/clicker/tap",
+  path: "/clicker/upgrades-for-buy",
   method: "POST",
-  headers: headers, // Используем экспортированные headers
+  headers: headers,
 };
-
-const data = JSON.stringify({
-  availableTaps: 0, // осаток
-  count: 18000, // клики
-  timestamp: Math.floor(Date.now() / 1000),
-});
 
 const req = https.request(options, (res) => {
   console.log(`statusCode: ${res.statusCode}`);
@@ -40,7 +34,11 @@ const req = https.request(options, (res) => {
       }
 
       const jsonData = JSON.parse(buffer.toString());
-      console.log(`Balance Coins: ${jsonData.clickerUser.balanceCoins}`);
+
+      if (res.statusCode === 400) {
+        console.error("Ошибка:", jsonData.message);
+        return; // Прекращаем выполнение, если код ответа 400
+      }
 
       // Получаем текущую дату и время в нужном формате
       const currentDate = new Date();
@@ -52,7 +50,7 @@ const req = https.request(options, (res) => {
       )} ${currentDate.getHours()} ${currentDate.getMinutes()} ${currentDate.getSeconds()}`;
 
       // Создаем имя файла с датой
-      const fileName = `json/clicker-tap_${formattedDate}.json`;
+      const fileName = `json/upgrades-for-buy_${formattedDate}.json`;
 
       // Записываем данные в файл
       fs.writeFile(fileName, JSON.stringify(jsonData, null, 2), (err) => {
@@ -72,5 +70,5 @@ req.on("error", (error) => {
   console.error("Request error:", error);
 });
 
-req.write(data);
+// req.write(data);
 req.end();

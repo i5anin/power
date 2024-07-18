@@ -1,39 +1,18 @@
 import https from "https";
 import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 import fs from "fs";
+import { headers } from "./config.js"; // Импорт options из config.js
 
 const options = {
   hostname: "api.hamsterkombatgame.io",
   port: 443,
   path: "/clicker/buy-upgrade",
   method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization:
-      "Bearer 1721286018267pTT5u2xltkvWbpvEjmFYIxFK3cD3RyOEkr05QjSRzmbLucVnu5PcWU9PsgUJCnT5390895078", // Замените на ваш актуальный токен
-    Accept: "application/json",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
-    "Cache-Control": "no-cache",
-    Dnt: "1",
-    Origin: "https://hamsterkombatgame.io",
-    Pragma: "no-cache",
-    Priority: "u=1, i",
-    Referer: "https://hamsterkombatgame.io/",
-    "Sec-Ch-Ua":
-      '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
-    "Sec-Ch-Ua-Mobile": "?0",
-    "Sec-Ch-Ua-Platform": '"Windows"',
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "same-site",
-    "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-  },
+  headers: headers, // Используем экспортированные headers
 };
 
 const data = JSON.stringify({
-  upgradeId: "oracle",
+  upgradeId: "medium",
   timestamp: Math.floor(Date.now() / 1000),
 });
 
@@ -61,6 +40,11 @@ const req = https.request(options, (res) => {
 
       const jsonData = JSON.parse(buffer.toString());
 
+      if (res.statusCode === 400) {
+        console.error("Ошибка:", jsonData.message);
+        return; // Прекращаем выполнение, если код ответа 400
+      }
+
       // Получаем текущую дату и время в нужном формате
       const currentDate = new Date();
       const formattedDate = `${currentDate.getFullYear()}-${(
@@ -74,17 +58,13 @@ const req = https.request(options, (res) => {
       const fileName = `json/buy-upgrade_${formattedDate}.json`;
 
       // Записываем данные в файл
-      fs.writeFile(
-        fileName,
-        JSON.stringify(jsonData.clickerUser, null, 2),
-        (err) => {
-          if (err) {
-            console.error("Ошибка записи в файл:", err);
-          } else {
-            console.log(`Данные успешно записаны в файл ${fileName}`);
-          }
+      fs.writeFile(fileName, JSON.stringify(jsonData, null, 2), (err) => {
+        if (err) {
+          console.error("Ошибка записи в файл:", err);
+        } else {
+          console.log(`Данные успешно записаны в файл ${fileName}`);
         }
-      );
+      });
     } catch (error) {
       console.error("Ошибка парсинга JSON:", error);
     }

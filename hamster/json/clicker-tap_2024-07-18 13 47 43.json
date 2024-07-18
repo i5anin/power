@@ -1,0 +1,243 @@
+{
+  "clickerUser": {
+    "id": "6522743169",
+    "totalCoins": 10988.099099999998,
+    "balanceCoins": 2159.0991,
+    "level": 2,
+    "availableTaps": 0,
+    "lastSyncUpdate": 1721299661,
+    "exchangeId": "hamster",
+    "boosts": {
+      "BoostEarnPerTap": {
+        "id": "BoostEarnPerTap",
+        "level": 1,
+        "lastUpgradeAt": 1717330526
+      },
+      "BoostMaxTaps": {
+        "id": "BoostMaxTaps",
+        "level": 1,
+        "lastUpgradeAt": 1717330529
+      }
+    },
+    "upgrades": {
+      "two_factor_authentication": {
+        "id": "two_factor_authentication",
+        "level": 0,
+        "lastUpgradeAt": 1717330513,
+        "snapshotReferralsCount": 0
+      },
+      "anonymous_transactions_ban": {
+        "id": "anonymous_transactions_ban",
+        "level": 0,
+        "lastUpgradeAt": 1717330513,
+        "snapshotReferralsCount": 0
+      },
+      "two_chairs": {
+        "id": "two_chairs",
+        "level": 0,
+        "lastUpgradeAt": 1717330513,
+        "snapshotReferralsCount": 0
+      },
+      "short_squeeze": {
+        "id": "short_squeeze",
+        "level": 0,
+        "lastUpgradeAt": 1717330513,
+        "snapshotReferralsCount": 0
+      },
+      "notcoin_listing": {
+        "id": "notcoin_listing",
+        "level": 0,
+        "lastUpgradeAt": 1717330513,
+        "snapshotReferralsCount": 0
+      },
+      "ceo_21m": {
+        "id": "ceo_21m",
+        "level": 0,
+        "lastUpgradeAt": 1717330513,
+        "snapshotReferralsCount": 0
+      },
+      "licence_japan": {
+        "id": "licence_japan",
+        "level": 0,
+        "lastUpgradeAt": 1721288880,
+        "snapshotReferralsCount": 0
+      },
+      "licence_vietnam": {
+        "id": "licence_vietnam",
+        "level": 0,
+        "lastUpgradeAt": 1721288880,
+        "snapshotReferralsCount": 0
+      },
+      "licence_turkey": {
+        "id": "licence_turkey",
+        "level": 0,
+        "lastUpgradeAt": 1721288880,
+        "snapshotReferralsCount": 0
+      },
+      "premarket_launch": {
+        "id": "premarket_launch",
+        "level": 0,
+        "lastUpgradeAt": 1721288880,
+        "snapshotReferralsCount": 0
+      },
+      "ceo": {
+        "id": "ceo",
+        "level": 2,
+        "lastUpgradeAt": 1721296821
+      },
+      "marketing": {
+        "id": "marketing",
+        "level": 1,
+        "lastUpgradeAt": 1721296485
+      },
+      "medium": {
+        "id": "medium",
+        "level": 4,
+        "lastUpgradeAt": 1721299249
+      }
+    },
+    "tasks": {},
+    "airdropTasks": {},
+    "referralsCount": 0,
+    "maxTaps": 2000,
+    "earnPerTap": 3,
+    "earnPassivePerSec": 0.1263,
+    "earnPassivePerHour": 455,
+    "lastPassiveEarn": 1.0104,
+    "tapsRecoverPerSec": 3,
+    "referral": {
+      "friend": {
+        "isBot": false,
+        "firstName": "Sergei",
+        "lastName": "",
+        "addedToAttachmentMenu": null,
+        "id": 390895078,
+        "isPremium": null,
+        "canReadAllGroupMessages": null,
+        "languageCode": "ru",
+        "canJoinGroups": null,
+        "supportsInlineQueries": null,
+        "photos": [
+          [
+            {
+              "width": 160,
+              "fileSize": 12808,
+              "fileUniqueId": "AQADGqgxG-aVTBcAAQ",
+              "fileId": "AgACAgIAAxUAAWZTJLXJGrwgiAnEXa-ww972YqBkAAIaqDEb5pVMFwet971amT4XAQADAgADYQADNQQ",
+              "height": 160
+            },
+            {
+              "width": 320,
+              "fileSize": 36676,
+              "fileUniqueId": "AQADGqgxG-aVTBdn",
+              "fileId": "AgACAgIAAxUAAWZTJLXJGrwgiAnEXa-ww972YqBkAAIaqDEb5pVMFwet971amT4XAQADAgADYgADNQQ",
+              "height": 320
+            },
+            {
+              "width": 640,
+              "fileSize": 114921,
+              "fileUniqueId": "AQADGqgxG-aVTBcB",
+              "fileId": "AgACAgIAAxUAAWZTJLXJGrwgiAnEXa-ww972YqBkAAIaqDEb5pVMFwet971amT4XAQADAgADYwADNQQ",
+              "height": 640
+            }
+          ],
+          [
+            {
+              "width": 160,
+              "fileSize": 4013,
+              "fileUniqueId": "AQADFqgxG-aVTBcAAQ",
+              "fileId": "AgACAgIAAxUAAWZTJLXZTIMLe112xzsH4ENeu9lUAAIWqDEb5pVMF6KBC1oDSX8WAQADAgADYQADNQQ",
+              "height": 160
+            },
+            {
+              "width": 320,
+              "fileSize": 10474,
+              "fileUniqueId": "AQADFqgxG-aVTBdn",
+              "fileId": "AgACAgIAAxUAAWZTJLXZTIMLe112xzsH4ENeu9lUAAIWqDEb5pVMF6KBC1oDSX8WAQADAgADYgADNQQ",
+              "height": 320
+            },
+            {
+              "width": 640,
+              "fileSize": 29218,
+              "fileUniqueId": "AQADFqgxG-aVTBcB",
+              "fileId": "AgACAgIAAxUAAWZTJLXZTIMLe112xzsH4ENeu9lUAAIWqDEb5pVMF6KBC1oDSX8WAQADAgADYwADNQQ",
+              "height": 640
+            }
+          ],
+          [
+            {
+              "width": 160,
+              "fileSize": 4683,
+              "fileUniqueId": "AQADFagxG-aVTBcAAQ",
+              "fileId": "AgACAgIAAxUAAWZTJLVidyGwr2xFbW7QywU4pg2ZAAIVqDEb5pVMF4ze4MwedOPSAQADAgADYQADNQQ",
+              "height": 160
+            },
+            {
+              "width": 320,
+              "fileSize": 12033,
+              "fileUniqueId": "AQADFagxG-aVTBdn",
+              "fileId": "AgACAgIAAxUAAWZTJLVidyGwr2xFbW7QywU4pg2ZAAIVqDEb5pVMF4ze4MwedOPSAQADAgADYgADNQQ",
+              "height": 320
+            },
+            {
+              "width": 640,
+              "fileSize": 32823,
+              "fileUniqueId": "AQADFagxG-aVTBcB",
+              "fileId": "AgACAgIAAxUAAWZTJLVidyGwr2xFbW7QywU4pg2ZAAIVqDEb5pVMF4ze4MwedOPSAQADAgADYwADNQQ",
+              "height": 640
+            }
+          ],
+          [
+            {
+              "width": 160,
+              "fileSize": 9372,
+              "fileUniqueId": "AQADC6gxG-aVTBcAAQ",
+              "fileId": "AgACAgIAAxUAAWZTJLXhKXgH1VAgyi599ecy0RmDAAILqDEb5pVMFwd7MLa8fLIbAQADAgADYQADNQQ",
+              "height": 160
+            },
+            {
+              "width": 320,
+              "fileSize": 28570,
+              "fileUniqueId": "AQADC6gxG-aVTBdn",
+              "fileId": "AgACAgIAAxUAAWZTJLXhKXgH1VAgyi599ecy0RmDAAILqDEb5pVMFwd7MLa8fLIbAQADAgADYgADNQQ",
+              "height": 320
+            },
+            {
+              "width": 640,
+              "fileSize": 94345,
+              "fileUniqueId": "AQADC6gxG-aVTBcB",
+              "fileId": "AgACAgIAAxUAAWZTJLXhKXgH1VAgyi599ecy0RmDAAILqDEb5pVMFwd7MLa8fLIbAQADAgADYwADNQQ",
+              "height": 640
+            }
+          ],
+          [
+            {
+              "width": 160,
+              "fileSize": 12328,
+              "fileUniqueId": "AQADB6gxG-aVTBcAAQ",
+              "fileId": "AgACAgIAAxUAAWZTJLViua2LMr2HWVpT3UaN5RdYAAIHqDEb5pVMF-qz3dZ9Rc4CAQADAgADYQADNQQ",
+              "height": 160
+            },
+            {
+              "width": 320,
+              "fileSize": 43650,
+              "fileUniqueId": "AQADB6gxG-aVTBdn",
+              "fileId": "AgACAgIAAxUAAWZTJLViua2LMr2HWVpT3UaN5RdYAAIHqDEb5pVMF-qz3dZ9Rc4CAQADAgADYgADNQQ",
+              "height": 320
+            },
+            {
+              "width": 640,
+              "fileSize": 160821,
+              "fileUniqueId": "AQADB6gxG-aVTBcB",
+              "fileId": "AgACAgIAAxUAAWZTJLViua2LMr2HWVpT3UaN5RdYAAIHqDEb5pVMF-qz3dZ9Rc4CAQADAgADYwADNQQ",
+              "height": 640
+            }
+          ]
+        ],
+        "username": "i5anin",
+        "welcomeBonusCoins": 5000
+      }
+    },
+    "referrerId": "390895078"
+  }
+}

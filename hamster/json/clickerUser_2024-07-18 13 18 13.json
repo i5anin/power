@@ -1,0 +1,773 @@
+{
+  "clickerUser": {
+    "id": "390895078",
+    "totalCoins": 855315484.8650985,
+    "balanceCoins": 3538696.865100161,
+    "level": 9,
+    "availableTaps": 0,
+    "lastSyncUpdate": 1721297890,
+    "exchangeId": "bybit",
+    "boosts": {
+      "BoostEarnPerTap": {
+        "id": "BoostEarnPerTap",
+        "level": 13,
+        "lastUpgradeAt": 1721293992
+      },
+      "BoostFullAvailableTaps": {
+        "id": "BoostFullAvailableTaps",
+        "level": 1,
+        "lastUpgradeAt": 1721293396
+      },
+      "BoostMaxTaps": {
+        "id": "BoostMaxTaps",
+        "level": 15,
+        "lastUpgradeAt": 1721293973
+      }
+    },
+    "upgrades": {
+      "two_factor_authentication": {
+        "id": "two_factor_authentication",
+        "level": 17,
+        "lastUpgradeAt": 1718954539,
+        "snapshotReferralsCount": 0
+      },
+      "anonymous_transactions_ban": {
+        "id": "anonymous_transactions_ban",
+        "level": 17,
+        "lastUpgradeAt": 1718954581,
+        "snapshotReferralsCount": 0
+      },
+      "two_chairs": {
+        "id": "two_chairs",
+        "level": 13,
+        "lastUpgradeAt": 1718483167,
+        "snapshotReferralsCount": 0
+      },
+      "short_squeeze": {
+        "id": "short_squeeze",
+        "level": 14,
+        "lastUpgradeAt": 1719491162,
+        "snapshotReferralsCount": 0
+      },
+      "notcoin_listing": {
+        "id": "notcoin_listing",
+        "level": 0,
+        "lastUpgradeAt": 1716724915,
+        "snapshotReferralsCount": 0
+      },
+      "ceo_21m": {
+        "id": "ceo_21m",
+        "level": 0,
+        "lastUpgradeAt": 1716724915,
+        "snapshotReferralsCount": 0
+      },
+      "top_10_cmc_pairs": {
+        "id": "top_10_cmc_pairs",
+        "level": 17,
+        "lastUpgradeAt": 1719201887
+      },
+      "btc_pairs": {
+        "id": "btc_pairs",
+        "level": 19,
+        "lastUpgradeAt": 1719327695
+      },
+      "fan_tokens": {
+        "id": "fan_tokens",
+        "level": 15,
+        "lastUpgradeAt": 1720708209
+      },
+      "eth_pairs": {
+        "id": "eth_pairs",
+        "level": 19,
+        "lastUpgradeAt": 1721127843
+      },
+      "x": {
+        "id": "x",
+        "level": 18,
+        "lastUpgradeAt": 1719346021
+      },
+      "kyc": {
+        "id": "kyc",
+        "level": 20,
+        "lastUpgradeAt": 1719562888
+      },
+      "kyb": {
+        "id": "kyb",
+        "level": 19,
+        "lastUpgradeAt": 1719779799
+      },
+      "medium": {
+        "id": "medium",
+        "level": 19,
+        "lastUpgradeAt": 1719548645
+      },
+      "web3_academy_launch": {
+        "id": "web3_academy_launch",
+        "level": 17,
+        "lastUpgradeAt": 1718707831
+      },
+      "top10_global": {
+        "id": "top10_global",
+        "level": 16,
+        "lastUpgradeAt": 1720261222
+      },
+      "special_hamster_conference": {
+        "id": "special_hamster_conference",
+        "level": 16,
+        "lastUpgradeAt": 1721187520
+      },
+      "bitcoin_pizza_day": {
+        "id": "bitcoin_pizza_day",
+        "level": 17,
+        "lastUpgradeAt": 1720708161
+      },
+      "support_team": {
+        "id": "support_team",
+        "level": 19,
+        "lastUpgradeAt": 1719548643
+      },
+      "shit_coins": {
+        "id": "shit_coins",
+        "level": 16,
+        "lastUpgradeAt": 1717494053
+      },
+      "facebook_ads": {
+        "id": "facebook_ads",
+        "level": 19,
+        "lastUpgradeAt": 1721293485
+      },
+      "licence_europe": {
+        "id": "licence_europe",
+        "level": 16,
+        "lastUpgradeAt": 1720261176
+      },
+      "ceo": {
+        "id": "ceo",
+        "level": 18,
+        "lastUpgradeAt": 1721242854
+      },
+      "it_team": {
+        "id": "it_team",
+        "level": 17,
+        "lastUpgradeAt": 1718707854
+      },
+      "marketing": {
+        "id": "marketing",
+        "level": 18,
+        "lastUpgradeAt": 1721242856
+      },
+      "defi2.0_tokens": {
+        "id": "defi2.0_tokens",
+        "level": 18,
+        "lastUpgradeAt": 1719548660
+      },
+      "prediction_markets": {
+        "id": "prediction_markets",
+        "level": 17,
+        "lastUpgradeAt": 1718554340
+      },
+      "bisdev_team": {
+        "id": "bisdev_team",
+        "level": 18,
+        "lastUpgradeAt": 1719346014
+      },
+      "consensys_piranja_pass": {
+        "id": "consensys_piranja_pass",
+        "level": 13,
+        "lastUpgradeAt": 1719327194
+      },
+      "product_team": {
+        "id": "product_team",
+        "level": 19,
+        "lastUpgradeAt": 1721127858
+      },
+      "security_audition": {
+        "id": "security_audition",
+        "level": 16,
+        "lastUpgradeAt": 1719461214
+      },
+      "vc_labs": {
+        "id": "vc_labs",
+        "level": 15,
+        "lastUpgradeAt": 1721162916
+      },
+      "consensys_explorer_pass": {
+        "id": "consensys_explorer_pass",
+        "level": 14,
+        "lastUpgradeAt": 1718954578
+      },
+      "anti_money_loundering": {
+        "id": "anti_money_loundering",
+        "level": 17,
+        "lastUpgradeAt": 1721242847
+      },
+      "licence_uae": {
+        "id": "licence_uae",
+        "level": 16,
+        "lastUpgradeAt": 1720261183
+      },
+      "legal_opinion": {
+        "id": "legal_opinion",
+        "level": 18,
+        "lastUpgradeAt": 1721242845
+      },
+      "licence_australia": {
+        "id": "licence_australia",
+        "level": 16,
+        "lastUpgradeAt": 1720261174
+      },
+      "licence_nigeria": {
+        "id": "licence_nigeria",
+        "level": 18,
+        "lastUpgradeAt": 1721242834
+      },
+      "licence_south_america": {
+        "id": "licence_south_america",
+        "level": 16,
+        "lastUpgradeAt": 1720261175
+      },
+      "licence_asia": {
+        "id": "licence_asia",
+        "level": 16,
+        "lastUpgradeAt": 1720261178
+      },
+      "margin_trading_x10": {
+        "id": "margin_trading_x10",
+        "level": 16,
+        "lastUpgradeAt": 1717494164
+      },
+      "margin_trading_x20": {
+        "id": "margin_trading_x20",
+        "level": 16,
+        "lastUpgradeAt": 1718004907
+      },
+      "apps_center_listing": {
+        "id": "apps_center_listing",
+        "level": 14,
+        "lastUpgradeAt": 1718483162
+      },
+      "influencers": {
+        "id": "influencers",
+        "level": 16,
+        "lastUpgradeAt": 1718787536
+      },
+      "youtube": {
+        "id": "youtube",
+        "level": 19,
+        "lastUpgradeAt": 1721294944
+      },
+      "instagram": {
+        "id": "instagram",
+        "level": 18,
+        "lastUpgradeAt": 1718787517
+      },
+      "reddit": {
+        "id": "reddit",
+        "level": 17,
+        "lastUpgradeAt": 1718787522
+      },
+      "tokenomics_expert": {
+        "id": "tokenomics_expert",
+        "level": 15,
+        "lastUpgradeAt": 1719201869
+      },
+      "gamefi_tokens": {
+        "id": "gamefi_tokens",
+        "level": 18,
+        "lastUpgradeAt": 1719327698
+      },
+      "derivatives": {
+        "id": "derivatives",
+        "level": 16,
+        "lastUpgradeAt": 1718554298
+      },
+      "p2p_trading": {
+        "id": "p2p_trading",
+        "level": 16,
+        "lastUpgradeAt": 1720261151
+      },
+      "tiktok": {
+        "id": "tiktok",
+        "level": 18,
+        "lastUpgradeAt": 1720261266
+      },
+      "staking": {
+        "id": "staking",
+        "level": 17,
+        "lastUpgradeAt": 1719014641
+      },
+      "socialfi_tokens": {
+        "id": "socialfi_tokens",
+        "level": 18,
+        "lastUpgradeAt": 1719548661
+      },
+      "security_team": {
+        "id": "security_team",
+        "level": 19,
+        "lastUpgradeAt": 1719407337
+      },
+      "ux_ui_team": {
+        "id": "ux_ui_team",
+        "level": 18,
+        "lastUpgradeAt": 1720124706
+      },
+      "sec_transparancy": {
+        "id": "sec_transparancy",
+        "level": 18,
+        "lastUpgradeAt": 1721242843
+      },
+      "hamster_youtube_channel": {
+        "id": "hamster_youtube_channel",
+        "level": 16,
+        "lastUpgradeAt": 1720261218
+      },
+      "hamster_youtube_gold_button": {
+        "id": "hamster_youtube_gold_button",
+        "level": 17,
+        "lastUpgradeAt": 1720708155
+      },
+      "hamster_daily_show": {
+        "id": "hamster_daily_show",
+        "level": 2,
+        "lastUpgradeAt": 1717195643
+      },
+      "contract_with_football_club": {
+        "id": "contract_with_football_club",
+        "level": 8,
+        "lastUpgradeAt": 1717240889
+      },
+      "usdt_on_ton": {
+        "id": "usdt_on_ton",
+        "level": 16,
+        "lastUpgradeAt": 1720708336
+      },
+      "partner_announce": {
+        "id": "partner_announce",
+        "level": 9,
+        "lastUpgradeAt": 1720261209
+      },
+      "margin_trading_x100": {
+        "id": "margin_trading_x100",
+        "level": 16,
+        "lastUpgradeAt": 1718441511
+      },
+      "dao": {
+        "id": "dao",
+        "level": 17,
+        "lastUpgradeAt": 1719548670
+      },
+      "meme_coins": {
+        "id": "meme_coins",
+        "level": 17,
+        "lastUpgradeAt": 1720261141
+      },
+      "partnership_program": {
+        "id": "partnership_program",
+        "level": 18,
+        "lastUpgradeAt": 1719461237
+      },
+      "compliance_officer": {
+        "id": "compliance_officer",
+        "level": 16,
+        "lastUpgradeAt": 1719548653
+      },
+      "margin_trading_x30": {
+        "id": "margin_trading_x30",
+        "level": 17,
+        "lastUpgradeAt": 1718441496
+      },
+      "risk_management_team": {
+        "id": "risk_management_team",
+        "level": 16,
+        "lastUpgradeAt": 1719201871
+      },
+      "licence_japan": {
+        "id": "licence_japan",
+        "level": 13,
+        "lastUpgradeAt": 1720708193,
+        "snapshotReferralsCount": 4
+      },
+      "licence_ethiopia": {
+        "id": "licence_ethiopia",
+        "level": 15,
+        "lastUpgradeAt": 1719327590
+      },
+      "margin_trading_x50": {
+        "id": "margin_trading_x50",
+        "level": 16,
+        "lastUpgradeAt": 1717765098
+      },
+      "money_20_20": {
+        "id": "money_20_20",
+        "level": 16,
+        "lastUpgradeAt": 1719461247
+      },
+      "football_club_winner": {
+        "id": "football_club_winner",
+        "level": 1,
+        "lastUpgradeAt": 1717652221
+      },
+      "margin_trading_x75": {
+        "id": "margin_trading_x75",
+        "level": 16,
+        "lastUpgradeAt": 1717708777
+      },
+      "blocking_suspicious_accounts": {
+        "id": "blocking_suspicious_accounts",
+        "level": 17,
+        "lastUpgradeAt": 1718707863
+      },
+      "bogdanoff": {
+        "id": "bogdanoff",
+        "level": 16,
+        "lastUpgradeAt": 1720261235
+      },
+      "qa_team": {
+        "id": "qa_team",
+        "level": 17,
+        "lastUpgradeAt": 1719461241
+      },
+      "antihacking_shield": {
+        "id": "antihacking_shield",
+        "level": 17,
+        "lastUpgradeAt": 1720261272
+      },
+      "trading_bots": {
+        "id": "trading_bots",
+        "level": 17,
+        "lastUpgradeAt": 1720261149
+      },
+      "web3_integration": {
+        "id": "web3_integration",
+        "level": 15,
+        "lastUpgradeAt": 1718441537
+      },
+      "licence_north_america": {
+        "id": "licence_north_america",
+        "level": 15,
+        "lastUpgradeAt": 1718289949
+      },
+      "hamster_drop": {
+        "id": "hamster_drop",
+        "level": 17,
+        "lastUpgradeAt": 1720261206
+      },
+      "lambo_for_ceo": {
+        "id": "lambo_for_ceo",
+        "level": 1,
+        "lastUpgradeAt": 1717910980
+      },
+      "nft_collection_launch": {
+        "id": "nft_collection_launch",
+        "level": 14,
+        "lastUpgradeAt": 1720261224
+      },
+      "joe_rogan_podcast": {
+        "id": "joe_rogan_podcast",
+        "level": 1,
+        "lastUpgradeAt": 1717910991
+      },
+      "villa_for_dev_team": {
+        "id": "villa_for_dev_team",
+        "level": 17,
+        "lastUpgradeAt": 1718890360
+      },
+      "dubai_office": {
+        "id": "dubai_office",
+        "level": 1,
+        "lastUpgradeAt": 1717958274
+      },
+      "premarket_launch": {
+        "id": "premarket_launch",
+        "level": 6,
+        "lastUpgradeAt": 1720708150,
+        "snapshotReferralsCount": 5
+      },
+      "licence_india": {
+        "id": "licence_india",
+        "level": 14,
+        "lastUpgradeAt": 1721242817
+      },
+      "licence_bangladesh": {
+        "id": "licence_bangladesh",
+        "level": 13,
+        "lastUpgradeAt": 1721242814
+      },
+      "licence_indonesia": {
+        "id": "licence_indonesia",
+        "level": 13,
+        "lastUpgradeAt": 1721242821
+      },
+      "layerzero_listing": {
+        "id": "layerzero_listing",
+        "level": 12,
+        "lastUpgradeAt": 1721187462
+      },
+      "licence_vietnam": {
+        "id": "licence_vietnam",
+        "level": 13,
+        "lastUpgradeAt": 1721242819,
+        "snapshotReferralsCount": 5
+      },
+      "hamster_green_energy": {
+        "id": "hamster_green_energy",
+        "level": 9,
+        "lastUpgradeAt": 1721242770
+      },
+      "tg_leaders": {
+        "id": "tg_leaders",
+        "level": 11,
+        "lastUpgradeAt": 1721242774
+      },
+      "youtube_25_million": {
+        "id": "youtube_25_million",
+        "level": 10,
+        "lastUpgradeAt": 1721242771
+      },
+      "licence_turkey": {
+        "id": "licence_turkey",
+        "level": 13,
+        "lastUpgradeAt": 1721242823,
+        "snapshotReferralsCount": 5
+      },
+      "twitter_10_million": {
+        "id": "twitter_10_million",
+        "level": 11,
+        "lastUpgradeAt": 1721242767
+      },
+      "web3_game_con": {
+        "id": "web3_game_con",
+        "level": 4,
+        "lastUpgradeAt": 1720261192
+      },
+      "licence_philippines": {
+        "id": "licence_philippines",
+        "level": 11,
+        "lastUpgradeAt": 1721242809
+      },
+      "hamster_break_records": {
+        "id": "hamster_break_records",
+        "level": 8,
+        "lastUpgradeAt": 1721242876
+      },
+      "riyadh_masters_2024": {
+        "id": "riyadh_masters_2024",
+        "level": 2,
+        "lastUpgradeAt": 1720124665
+      },
+      "cx_hub_istanbul": {
+        "id": "cx_hub_istanbul",
+        "level": 7,
+        "lastUpgradeAt": 1721242764
+      },
+      "development_hub_mumbai": {
+        "id": "development_hub_mumbai",
+        "level": 3,
+        "lastUpgradeAt": 1720708251
+      },
+      "data_center_tokyo": {
+        "id": "data_center_tokyo",
+        "level": 4,
+        "lastUpgradeAt": 1721162621
+      },
+      "dex": {
+        "id": "dex",
+        "level": 7,
+        "lastUpgradeAt": 1721242796
+      },
+      "oracle": {
+        "id": "oracle",
+        "level": 8,
+        "lastUpgradeAt": 1721296677
+      },
+      "vesting_smartcontracts": {
+        "id": "vesting_smartcontracts",
+        "level": 7,
+        "lastUpgradeAt": 1721242791
+      },
+      "leaderboards": {
+        "id": "leaderboards",
+        "level": 4,
+        "lastUpgradeAt": 1721162622
+      },
+      "adv_integration_1307": {
+        "id": "adv_integration_1307",
+        "level": 3,
+        "lastUpgradeAt": 1721187364
+      },
+      "business_jet": {
+        "id": "business_jet",
+        "level": 1,
+        "lastUpgradeAt": 1721017003
+      },
+      "call_btc_rise": {
+        "id": "call_btc_rise",
+        "level": 3,
+        "lastUpgradeAt": 1721242871
+      },
+      "rolex_soulmate": {
+        "id": "rolex_soulmate",
+        "level": 5,
+        "lastUpgradeAt": 1721242758
+      },
+      "nft_marketplace": {
+        "id": "nft_marketplace",
+        "level": 7,
+        "lastUpgradeAt": 1721242789
+      },
+      "launchpad": {
+        "id": "launchpad",
+        "level": 5,
+        "lastUpgradeAt": 1721242792
+      },
+      "appstore_launch": {
+        "id": "appstore_launch",
+        "level": 2,
+        "lastUpgradeAt": 1721295765
+      },
+      "fight_fight": {
+        "id": "fight_fight",
+        "level": 1,
+        "lastUpgradeAt": 1721295754
+      }
+    },
+    "tasks": {
+      "streak_days": {
+        "id": "streak_days",
+        "completedAt": "2024-07-17T03:40:25.160Z",
+        "days": 2
+      },
+      "subscribe_telegram_channel": {
+        "id": "subscribe_telegram_channel",
+        "completedAt": "2024-05-26T12:09:47.624Z"
+      },
+      "select_exchange": {
+        "id": "select_exchange",
+        "completedAt": "2024-05-26T12:10:10.486Z"
+      },
+      "invite_friends": {
+        "id": "invite_friends",
+        "completedAt": "2024-05-30T20:09:49.961Z"
+      },
+      "subscribe_youtube_channel": {
+        "id": "subscribe_youtube_channel",
+        "completedAt": "2024-06-01T16:35:49.472Z"
+      },
+      "subscribe_x_account": {
+        "id": "subscribe_x_account",
+        "completedAt": "2024-06-01T16:42:05.474Z"
+      },
+      "watch_youtube_video_hk_cipher": {
+        "id": "watch_youtube_video_hk_cipher",
+        "completedAt": "2024-06-08T05:47:52.182Z"
+      },
+      "watch_youtube_video_okx": {
+        "id": "watch_youtube_video_okx",
+        "completedAt": "2024-06-09T06:33:17.323Z"
+      },
+      "hamster_drop": {
+        "id": "hamster_drop",
+        "completedAt": "2024-06-10T04:03:47.013Z"
+      },
+      "hamster_youtube_easy_start": {
+        "id": "hamster_youtube_easy_start",
+        "completedAt": "2024-06-11T16:22:07.913Z"
+      },
+      "hamster_youtube_academy": {
+        "id": "hamster_youtube_academy",
+        "completedAt": "2024-06-11T16:22:09.630Z"
+      },
+      "hamster_youtube_academy_s1e2": {
+        "id": "hamster_youtube_academy_s1e2",
+        "completedAt": "2024-06-12T12:14:48.890Z"
+      },
+      "hamster_youtube_easy_start_s1e2": {
+        "id": "hamster_youtube_easy_start_s1e2",
+        "completedAt": "2024-06-12T20:02:15.426Z"
+      },
+      "hamster_youtube_academy_s1e3": {
+        "id": "hamster_youtube_academy_s1e3",
+        "completedAt": "2024-06-14T06:04:40.920Z"
+      },
+      "hamster_youtube_easy_start_s1e3": {
+        "id": "hamster_youtube_easy_start_s1e3",
+        "completedAt": "2024-06-16T05:10:44.816Z"
+      },
+      "hamster_youtube_academy_s1e5": {
+        "id": "hamster_youtube_academy_s1e5",
+        "completedAt": "2024-06-21T14:56:54.439Z"
+      },
+      "hamster_youtube_easy_start_s1e4": {
+        "id": "hamster_youtube_easy_start_s1e4",
+        "completedAt": "2024-06-21T14:56:55.963Z"
+      },
+      "hamster_youtube_local_video_e3": {
+        "id": "hamster_youtube_local_video_e3",
+        "completedAt": "2024-07-06T10:18:49.249Z"
+      }
+    },
+    "airdropTasks": {
+      "subscribe_telegram_channel": {
+        "id": "subscribe_telegram_channel",
+        "completedAt": "2024-06-08T06:00:41.477Z"
+      },
+      "airdrop_connect_ton_wallet": {
+        "id": "airdrop_connect_ton_wallet",
+        "walletAddress": "UQC87isZtSEC3N0VJYDJLDLL-HMYQRkZtk8__iATFn4WtVut",
+        "completedAt": "2024-07-15T09:59:47.921Z"
+      }
+    },
+    "referralsCount": 6,
+    "maxTaps": 12500,
+    "earnPerTap": 22,
+    "earnPassivePerSec": 541.4582,
+    "earnPassivePerHour": 1949250,
+    "lastPassiveEarn": 477566.1324,
+    "tapsRecoverPerSec": 3,
+    "referral": {
+      "friend": {
+        "isBot": false,
+        "firstName": "Vladyslav",
+        "lastName": "",
+        "addedToAttachmentMenu": null,
+        "id": 424988744,
+        "isPremium": null,
+        "canReadAllGroupMessages": null,
+        "languageCode": "ru",
+        "canJoinGroups": null,
+        "supportsInlineQueries": null,
+        "photos": [
+          [
+            {
+              "width": 160,
+              "fileSize": 8986,
+              "fileUniqueId": "AQADq6cxG0jQVBkAAQ",
+              "fileId": "AgACAgQAAxUAAWZQmlTkJsJRUFsC5N7o0yHz96eNAAKrpzEbSNBUGTwAAdG8oxI2qQEAAwIAA2EAAzUE",
+              "height": 160
+            },
+            {
+              "width": 320,
+              "fileSize": 25358,
+              "fileUniqueId": "AQADq6cxG0jQVBln",
+              "fileId": "AgACAgQAAxUAAWZQmlTkJsJRUFsC5N7o0yHz96eNAAKrpzEbSNBUGTwAAdG8oxI2qQEAAwIAA2IAAzUE",
+              "height": 320
+            },
+            {
+              "width": 640,
+              "fileSize": 71315,
+              "fileUniqueId": "AQADq6cxG0jQVBkB",
+              "fileId": "AgACAgQAAxUAAWZQmlTkJsJRUFsC5N7o0yHz96eNAAKrpzEbSNBUGTwAAdG8oxI2qQEAAwIAA2MAAzUE",
+              "height": 640
+            }
+          ]
+        ],
+        "username": "vladjur",
+        "welcomeBonusCoins": 5000
+      }
+    },
+    "claimedUpgradeComboAt": "2024-07-16T11:04:20.882Z",
+    "claimedCipherAt": "2024-06-15T20:25:51.709Z",
+    "balanceTickets": 0,
+    "referrerId": "424988744"
+  }
+}
