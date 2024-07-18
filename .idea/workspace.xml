@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="bf146ba0-ef69-4b0f-89b9-f0d9f3515347" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/tree/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tree/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hamster/bot.js" beforeDir="false" afterPath="$PROJECT_DIR$/hamster/bot.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,11 +30,17 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Node.js.bot.js.executor": "Run",
+    "Node.js.clicker-tap.js.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "S:/development/min/tree",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.start (1).executor": "Run",
     "npm.start.executor": "Run",
@@ -47,7 +55,13 @@
       <recent name="S:\development\min" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start (1)">
+  <component name="RunManager" selected="Node.js.clicker-tap.js">
+    <configuration name="bot.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/hamster/bot.js" working-dir="$PROJECT_DIR$/hamster">
+      <method v="2" />
+    </configuration>
+    <configuration name="clicker-tap.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/hamster/clicker-tap.js" working-dir="$PROJECT_DIR$/hamster">
+      <method v="2" />
+    </configuration>
     <configuration name="start (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/tree/package.json" />
       <command value="run" />
@@ -70,6 +84,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.clicker-tap.js" />
+        <item itemvalue="Node.js.bot.js" />
         <item itemvalue="npm.start (1)" />
         <item itemvalue="npm.start" />
       </list>
@@ -92,6 +108,8 @@
       <updated>1710266968517</updated>
       <workItem from="1710266969534" duration="49000" />
       <workItem from="1719671051101" duration="206000" />
+      <workItem from="1721314796761" duration="13000" />
+      <workItem from="1721314817623" duration="1593000" />
     </task>
     <servers />
   </component>

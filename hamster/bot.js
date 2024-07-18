@@ -164,7 +164,7 @@ async function main() {
     }
 
     // Пауза перед следующей итерацией
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 50000));
   }
 }
 
