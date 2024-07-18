@@ -1,7 +1,7 @@
 import https from "https";
 import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 import fs from "fs";
-import { headers } from "./config.js"; // Импорт options из config.js
+import { headers } from "./config.js";
 
 const options = {
   hostname: "api.hamsterkombatgame.io",
@@ -37,29 +37,31 @@ const req = https.request(options, (res) => {
 
       if (res.statusCode === 400) {
         console.error("Ошибка:", jsonData.message);
-        return; // Прекращаем выполнение, если код ответа 400
+        return;
       }
 
-      // Получаем текущую дату и время в нужном формате
-      const currentDate = new Date();
-      const formattedDate = `${currentDate.getFullYear()}-${(
-        "0" +
-        (currentDate.getMonth() + 1)
-      ).slice(-2)}-${("0" + currentDate.getDate()).slice(
-        -2
-      )} ${currentDate.getHours()} ${currentDate.getMinutes()} ${currentDate.getSeconds()}`;
+      const upgrades = jsonData.upgradesForBuy;
 
-      // Создаем имя файла с датой
-      const fileName = `json/upgrades-for-buy_${formattedDate}.json`;
+      // Находим самые акупаемые апгрейды
+      const topUpgrades = upgrades
+        .filter((upgrade) => upgrade.isAvailable) // Фильтруем доступные для покупки
+        .map((upgrade) => ({
+          ...upgrade,
+          paybackPeriod: upgrade.price / upgrade.profitPerHourDelta, // Вычисляем период окупаемости
+        }))
+        .sort((a, b) => a.paybackPeriod - b.paybackPeriod); // Сортируем по периоду окупаемости
 
-      // Записываем данные в файл
-      fs.writeFile(fileName, JSON.stringify(jsonData, null, 2), (err) => {
-        if (err) {
-          console.error("Ошибка записи в файл:", err);
-        } else {
-          console.log(`Данные успешно записаны в файл ${fileName}`);
-        }
+      // Выводим информацию о самых акупаемых апгрейдах
+      console.log("Топ самых акупаемых апгрейдов:");
+      topUpgrades.forEach((upgrade) => {
+        console.log(
+          `- ${upgrade.section}:` +
+            `- ${upgrade.name}:` +
+            `окупаемость ${upgrade.paybackPeriod.toFixed(2)} ч.`
+        );
       });
+
+      // Добавьте код для сохранения данных в файл, если необходимо
     } catch (error) {
       console.error("Ошибка парсинга JSON:", error);
     }
@@ -70,5 +72,4 @@ req.on("error", (error) => {
   console.error("Request error:", error);
 });
 
-// req.write(data);
 req.end();
