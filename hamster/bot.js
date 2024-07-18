@@ -95,10 +95,6 @@ function buyUpgrade(upgradeId) {
 
           const jsonData = JSON.parse(buffer.toString());
 
-          // console.log("Полный ответ сервера:", {
-          //   statusCode: res.statusCode,
-          // });
-
           if (res.statusCode === 400) {
             console.error("Ошибка покупки:", jsonData.message);
             reject(new Error(jsonData.message));
@@ -128,12 +124,16 @@ async function main() {
     try {
       const data = await getUpgradesForBuy();
 
+      // Проверяем доступные средства
+      const balanceCoins = data.balanceCoins;
+
       const availableUpgrades = data.upgradesForBuy
         .filter(
           (upgrade) =>
             upgrade.cooldownSeconds === 0 &&
-            upgrade.isAvailable && // <-- Добавлено условие isAvailable
-            !upgrade.isExpired // <-- Условие !isExpired
+            upgrade.isAvailable &&
+            !upgrade.isExpired &&
+            upgrade.price <= balanceCoins // <-- Проверка на достаточность средств
         )
         .map((upgrade) => ({
           ...upgrade,
@@ -155,16 +155,15 @@ async function main() {
           }`
         );
         const buyResult = await buyUpgrade(bestUpgrade.id);
-        // console.log("Результат покупки:", buyResult);
       } else {
         console.log("Нет доступных для покупки апгрейдов");
       }
     } catch (error) {
-      console.error("Ошибка в главном цикле:", error);
+      // console.error("Ошибка в главном цикле:", error);
     }
 
     // Пауза перед следующей итерацией
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 100000));
   }
 }
 
