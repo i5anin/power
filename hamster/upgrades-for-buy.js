@@ -37,16 +37,46 @@ const req = https.request(options, (res) => {
 
       if (res.statusCode === 400) {
         console.error("Ошибка:", jsonData.message);
+        return; // Прекращаем выполнение, если код ответа 400
+      }
+
+      // Получаем текущую дату и время в нужном формате
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getFullYear()}-${(
+        "0" +
+        (currentDate.getMonth() + 1)
+      ).slice(-2)}-${("0" + currentDate.getDate()).slice(
+        -2
+      )} ${currentDate.getHours()} ${currentDate.getMinutes()} ${currentDate.getSeconds()}`;
+
+      // Создаем имя файла с датой
+      const fileName = `json/upgrades-for-buy_${formattedDate}.json`;
+
+      // Записываем данные в файл
+      fs.writeFile(fileName, JSON.stringify(jsonData, null, 2), (err) => {
+        if (err) {
+          console.error("Ошибка записи в файл:", err);
+        } else {
+          console.log(`Данные успешно записаны в файл ${fileName}`);
+        }
+      });
+
+      if (res.statusCode === 400) {
+        console.error("Ошибка:", jsonData.message);
         return;
       }
 
-      const upgrades = jsonData.upgradesForBuy;
+      // TODO GPT показывай только cooldownSeconds = 0
+
+      const upgrades = jsonData.upgradesForBuy.filter(
+        (upgrade) => !upgrade.isExpired
+      ); // Фильтруем истёкшие апгрейды
 
       // Создаем массив объектов с информацией об апгрейдах и периоде окупаемости
       const upgradesWithPayback = upgrades.map((upgrade) => ({
         ...upgrade,
-        paybackPeriod: upgrade.profitPerHourDelta
-          ? upgrade.price / upgrade.profitPerHourDelta
+        paybackPeriod: upgrade.profitPerHour
+          ? upgrade.price / upgrade.profitPerHour
           : Infinity, // Если прирост прибыли 0, устанавливаем бесконечный период окупаемости
       }));
 
