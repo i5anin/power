@@ -1,4 +1,5 @@
-const https = require("https");
+import https from "https";
+import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 
 const options = {
   hostname: "api.hamsterkombatgame.io",
@@ -8,9 +9,9 @@ const options = {
   headers: {
     "Content-Type": "application/json",
     Authorization:
-      "Bearer 1721286018267pTT5u2xltkvWbpvEjmFYIxFK3cD3RyOEkr05QjSRzmbLucVnu5PcWU9PsgUJCnT5390895078",
+      "Bearer 1721286018267pTT5u2xltkvWbpvEjmFYIxFK3cD3RyOEkr05QjSRzmbLucVnu5PcWU9PsgUJCnT5390895078", // Замените на ваш актуальный токен
     Accept: "application/json",
-    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "Accept-Encoding": "gzip, deflate, br",
     "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
     "Cache-Control": "no-cache",
     Dnt: "1",
@@ -31,21 +32,44 @@ const options = {
 };
 
 const data = JSON.stringify({
-  availableTaps: 9676, // Замените на ваше значение availableTaps
-  count: 18,
-  timestamp: Math.floor(Date.now() / 1000), // Текущий timestamp
+  availableTaps: 0, // осаток
+  count: 18000, // клики
+  timestamp: Math.floor(Date.now() / 1000),
 });
 
 const req = https.request(options, (res) => {
   console.log(`statusCode: ${res.statusCode}`);
 
-  res.on("data", (d) => {
-    process.stdout.write(d);
+  let responseData = [];
+
+  res.on("data", (chunk) => {
+    responseData.push(chunk);
+  });
+
+  res.on("end", () => {
+    try {
+      let buffer = Buffer.concat(responseData);
+      const encoding = res.headers["content-encoding"];
+
+      if (encoding === "gzip") {
+        buffer = gunzipSync(buffer);
+      } else if (encoding === "deflate") {
+        buffer = inflateSync(buffer);
+      } else if (encoding === "br") {
+        buffer = brotliDecompressSync(buffer);
+      }
+
+      const jsonData = JSON.parse(buffer.toString());
+      console.log(`Balance Coins: ${jsonData.clickerUser.balanceCoins}`);
+      console.log(JSON.stringify(jsonData.clickerUser, null, 2));
+    } catch (error) {
+      console.error("Ошибка парсинга JSON:", error);
+    }
   });
 });
 
 req.on("error", (error) => {
-  console.error(error);
+  console.error("Request error:", error);
 });
 
 req.write(data);

@@ -32,8 +32,8 @@ const options = {
 };
 
 const data = JSON.stringify({
-  availableTaps: 0, // Замените на ваше значение availableTaps
-  count: 100,
+  availableTaps: 9676, // осаток
+  count: 18, // клики
   timestamp: Math.floor(Date.now() / 1000),
 });
 
@@ -60,7 +60,7 @@ const req = https.request(options, (res) => {
       }
 
       const jsonData = JSON.parse(buffer.toString());
-      console.log(JSON.stringify(jsonData, null, 2));
+      console.log(`Balance Coins: ${jsonData.clickerUser.balanceCoins}`);
     } catch (error) {
       console.error("Ошибка парсинга JSON:", error);
     }
@@ -68,7 +68,7 @@ const req = https.request(options, (res) => {
 });
 
 req.on("error", (error) => {
-  console.error(error);
+  console.error("Request error:", error);
 });
 
 req.write(data);
