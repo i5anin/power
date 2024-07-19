@@ -13,7 +13,7 @@ const options = {
 
 const data = JSON.stringify({
   availableTaps: 0,
-  count: 18000,
+  count: 12500 / 22,
   timestamp: Math.floor(Date.now() / 1000),
 });
 

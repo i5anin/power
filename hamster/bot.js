@@ -2,7 +2,7 @@ import https from "https";
 import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 import fs from "fs";
 import { headers } from "./config.js";
-import getBalance from "./balance.js";
+// import getBalance from "./balance.js";
 
 function getUpgradesForBuy() {
   return new Promise((resolve, reject) => {
