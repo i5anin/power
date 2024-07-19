@@ -2,6 +2,7 @@ import https from "https";
 import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 import fs from "fs";
 import { headers } from "./config.js";
+import getBalance from "./balance.js";
 
 function getUpgradesForBuy() {
   return new Promise((resolve, reject) => {
@@ -164,7 +165,7 @@ async function main() {
     }
 
     // Пауза перед следующей итерацией Каждые 15 минут
-    await new Promise((resolve) => setTimeout(resolve, 15 * 60 * 1000)); // 15 минут * 60 секунд * 1000 миллисекунд
+    await new Promise((resolve) => setTimeout(resolve, 10 * 60 * 1000)); // 15 минут * 60 секунд * 1000 миллисекунд
   }
 }
 
