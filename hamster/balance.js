@@ -7,13 +7,13 @@ const options = {
   port: 443,
   path: "/clicker/tap",
   method: "POST",
-  headers: headers,
+  headers: headers
 };
 
 const data = JSON.stringify({
   availableTaps: 0,
   count: 18000,
-  timestamp: Math.floor(Date.now() / 1000),
+  timestamp: Math.floor(Date.now() / 1000)
 });
 
 function sendRequest() {
@@ -62,8 +62,8 @@ function sendRequest() {
 // Запускаем первый запрос сразу
 sendRequest()
   .then((balance) => {
-    console.log("Баланс монет:", balance);
-    // return balance;
+    // console.log("Баланс монет:", balance);
+    return balance;
   })
   .catch((error) => {
     console.error("Ошибка:", error);
@@ -73,7 +73,7 @@ sendRequest()
 setInterval(sendRequest, 50 * 60 * 1000);
 
 // Функция для получения баланса
-async function getBalance() {
+export async function getBalance() {
   try {
     const balance = await sendRequest();
     return balance;

@@ -2,7 +2,11 @@ import https from "https";
 import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 import fs from "fs";
 import { headers } from "./config.js";
-// import getBalance from "./balance.js";
+import { getBalance } from "./balance.js";
+
+const balance = await getBalance();
+
+console.log(balance);
 
 function getUpgradesForBuy() {
   return new Promise((resolve, reject) => {
@@ -11,7 +15,7 @@ function getUpgradesForBuy() {
       port: 443,
       path: "/clicker/upgrades-for-buy",
       method: "POST",
-      headers: headers,
+      headers: headers
     };
 
     const req = https.request(options, (res) => {
@@ -63,7 +67,7 @@ function buyUpgrade(upgradeId) {
   return new Promise((resolve, reject) => {
     const data = JSON.stringify({
       upgradeId: upgradeId,
-      timestamp: Math.floor(Date.now() / 1000),
+      timestamp: Math.floor(Date.now() / 1000)
     });
 
     const options = {
@@ -71,7 +75,7 @@ function buyUpgrade(upgradeId) {
       port: 443,
       path: "/clicker/buy-upgrade",
       method: "POST",
-      headers: headers,
+      headers: headers
     };
 
     const req = https.request(options, (res) => {
@@ -140,7 +144,7 @@ async function main() {
           ...upgrade,
           paybackPeriod: upgrade.profitPerHour
             ? upgrade.price / upgrade.profitPerHour
-            : Infinity,
+            : Infinity
         }))
         .sort((a, b) => a.paybackPeriod - b.paybackPeriod);
 
