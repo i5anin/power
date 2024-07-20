@@ -123,6 +123,7 @@ function buyUpgrade(upgradeId) {
 async function main() {
   while (true) {
     try {
+      // Получаем текущий баланс перед проверкой апгрейдов
       const balance = await getBalance();
       console.log(`Текущий баланс: ${balance}`);
 
@@ -142,8 +143,9 @@ async function main() {
             : Infinity
         }))
         .sort((a, b) => a.paybackPeriod - b.paybackPeriod)
-        .slice(0, 25); // Only consider the top 25 upgrades by payback period
+        .slice(0, 10); // Only consider the top 25 upgrades by payback period
 
+      // Фильтруем доступные апгрейды, используя актуальный баланс
       const affordableUpgrades = availableUpgrades.filter(
         (upgrade) => upgrade.price <= balance
       );
@@ -170,7 +172,7 @@ async function main() {
     }
 
     // Пауза перед следующей итерацией Каждые 15 минут
-    await new Promise((resolve) => setTimeout(resolve, 1 * 60 * 1000)); // 15 минут * 60 секунд * 1000 миллисекунд
+    await new Promise((resolve) => setTimeout(resolve, 5 * 60 * 1000)); // 15 минут * 60 секунд * 1000 миллисекунд
   }
 }
 
