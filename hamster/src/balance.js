@@ -1,9 +1,9 @@
 import axios from "axios";
-import { headers } from "./config.js";
-
-let currentBalance = null;
+import { headers } from "../config.js";
 
 const options = {
+  url: "https://api.hamsterkombatgame.io/clicker/tap",
+  method: "POST",
   headers: headers,
   data: {
     availableTaps: 0,
@@ -14,13 +14,8 @@ const options = {
 
 async function sendRequest() {
   try {
-    const response = await axios.post(
-      "https://api.hamsterkombatgame.io/clicker/tap",
-      options.data,
-      { headers: options.headers }
-    );
-    currentBalance = response.data.clickerUser.balanceCoins; // Обновляем текущий баланс
-    return currentBalance;
+    const response = await axios(options);
+    return response.data.clickerUser.balanceCoins; // Возвращаем текущий баланс
   } catch (error) {
     console.error("Ошибка выполнения запроса:", error);
     throw error;
@@ -29,25 +24,22 @@ async function sendRequest() {
 
 // Функция для получения баланса
 export async function getBalance() {
-  if (currentBalance === null) {
-    try {
-      currentBalance = await sendRequest();
-    } catch (error) {
-      console.error("Ошибка получения баланса:", error);
-      return null;
-    }
+  try {
+    return await sendRequest();
+  } catch (error) {
+    console.error("Ошибка получения баланса:", error);
+    return null;
   }
-  return currentBalance;
 }
 
 // Функция для получения списка апгрейдов
 async function getUpgradesForBuy() {
   try {
-    const response = await axios.post(
-      "https://api.hamsterkombatgame.io/clicker/upgrades-for-buy",
-      {},
-      { headers: headers }
-    );
+    const response = await axios({
+      url: "https://api.hamsterkombatgame.io/clicker/upgrades-for-buy",
+      method: "POST",
+      headers: headers
+    });
     return response.data;
   } catch (error) {
     console.error("Ошибка получения списка апгрейдов:", error);
@@ -58,14 +50,15 @@ async function getUpgradesForBuy() {
 // Функция для покупки апгрейда
 async function buyUpgrade(upgradeId) {
   try {
-    const response = await axios.post(
-      "https://api.hamsterkombatgame.io/clicker/buy-upgrade",
-      {
+    const response = await axios({
+      url: "https://api.hamsterkombatgame.io/clicker/buy-upgrade",
+      method: "POST",
+      headers: headers,
+      data: {
         upgradeId: upgradeId,
         timestamp: Math.floor(Date.now() / 1000)
-      },
-      { headers: headers }
-    );
+      }
+    });
     return response.data;
   } catch (error) {
     console.error("Ошибка покупки апгрейда:", error);
