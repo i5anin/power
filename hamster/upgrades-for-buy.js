@@ -1,7 +1,7 @@
 import https from "https";
 import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 import fs from "fs";
-import { headers } from "../../config.js";
+import { headers } from "./config.js";
 
 // Настройки запроса к API
 const options = {
