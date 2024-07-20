@@ -4,11 +4,7 @@ import fs from "fs";
 import { headers } from "./config.js";
 import { getBalance } from "./balance.js";
 
-const balance = await getBalance();
-
-console.log(balance);
-
-function getUpgradesForBuy() {
+async function getUpgradesForBuy() {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: "api.hamsterkombatgame.io",
@@ -100,10 +96,6 @@ function buyUpgrade(upgradeId) {
 
           const jsonData = JSON.parse(buffer.toString());
 
-          // console.log("Полный ответ сервера:", {
-          //   statusCode: res.statusCode,
-          // });
-
           if (res.statusCode === 400) {
             console.error("Ошибка покупки:", jsonData.message);
             reject(new Error(jsonData.message));
@@ -131,14 +123,17 @@ function buyUpgrade(upgradeId) {
 async function main() {
   while (true) {
     try {
-      const data = await getUpgradesForBuy();
+      const balance = await getBalance();
+      console.log(`Текущий баланс: ${balance}`);
 
+      const data = await getUpgradesForBuy();
       const availableUpgrades = data.upgradesForBuy
         .filter(
           (upgrade) =>
-            upgrade.cooldownSeconds === 0 &&
-            upgrade.isAvailable && // <-- Добавлено условие isAvailable
-            !upgrade.isExpired // <-- Условие !isExpired
+            (upgrade.cooldownSeconds === 0 ||
+              upgrade.cooldownSeconds === undefined) &&
+            upgrade.isAvailable &&
+            !upgrade.isExpired
         )
         .map((upgrade) => ({
           ...upgrade,
@@ -146,14 +141,20 @@ async function main() {
             ? upgrade.price / upgrade.profitPerHour
             : Infinity
         }))
-        .sort((a, b) => a.paybackPeriod - b.paybackPeriod);
+        .sort((a, b) => a.paybackPeriod - b.paybackPeriod)
+        .slice(0, 25); // Only consider the top 25 upgrades by payback period
 
-      if (availableUpgrades.length > 0) {
-        const bestUpgrade = availableUpgrades[0];
+      const affordableUpgrades = availableUpgrades.filter(
+        (upgrade) => upgrade.price <= balance
+      );
+
+      if (affordableUpgrades.length > 0) {
+        const bestUpgrade = affordableUpgrades[0];
+        const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1; // 1-based index
         console.log(
-          `Покупаю: ${bestUpgrade.section}: ${bestUpgrade.name} ${
-            bestUpgrade.price
-          } - окупаемость: ${
+          `Покупаю (место ${upgradeIndex} в топ-10): ${bestUpgrade.section}: ${
+            bestUpgrade.name
+          } ${bestUpgrade.price} - окупаемость: ${
             bestUpgrade.paybackPeriod !== Infinity
               ? bestUpgrade.paybackPeriod.toFixed(2) + " ч."
               : "бесконечность"
@@ -162,14 +163,14 @@ async function main() {
         const buyResult = await buyUpgrade(bestUpgrade.id);
         // console.log("Результат покупки:", buyResult);
       } else {
-        console.log("Нет доступных для покупки апгрейдов");
+        console.log("Нет доступных для покупки апгрейдов, подходящих по цене");
       }
     } catch (error) {
       console.error("Ошибка в главном цикле:", error);
     }
 
     // Пауза перед следующей итерацией Каждые 15 минут
-    await new Promise((resolve) => setTimeout(resolve, 10 * 60 * 1000)); // 15 минут * 60 секунд * 1000 миллисекунд
+    await new Promise((resolve) => setTimeout(resolve, 1 * 60 * 1000)); // 15 минут * 60 секунд * 1000 миллисекунд
   }
 }
 
