@@ -1,5 +1,5 @@
 import axios from "axios";
-import { headers } from "./config.js";
+import { headers } from "../config.js";
 
 let currentBalance = null;
 

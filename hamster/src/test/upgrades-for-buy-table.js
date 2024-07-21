@@ -1,7 +1,7 @@
 import https from "https";
 import { gunzipSync, inflateSync, brotliDecompressSync } from "zlib";
 import fs from "fs";
-import { headers } from "./config.js";
+import { headers } from "../config.js";
 import Table from "cli-table"; // Импортируем библиотеку cli-table
 
 const options = {
