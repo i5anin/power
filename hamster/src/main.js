@@ -75,9 +75,9 @@ async function main() {
         const bestUpgrade = affordableUpgrades[0]
         const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1
         console.log(
-          `Покупаю (место ${upgradeIndex} в топ-10): ` +
-            `${bestUpgrade.section}: ${bestUpgrade.name} ${bestUpgrade.price} ` +
-            `- окупаемость: ${bestUpgrade.paybackPeriod.toFixed(2)} ч.`
+          chalk.magenta(`Покупаю (место ${upgradeIndex} в топ-10): `) +
+            `${bestUpgrade.section}: ${bestUpgrade.name} ${chalk.yellow(bestUpgrade.price.toLocaleString())} ` +
+            `- окупаемость: ${chalk.blue(bestUpgrade.paybackPeriod.toFixed(2))} ч.`
         )
         await api.buyUpgrade(bestUpgrade.id)
       } else {
@@ -99,12 +99,12 @@ async function main() {
           const secondsLeft = secondsToBuy % 60
 
           console.log(
-            chalk.blue(
-              `Ближайший доступный апгрейд: ${nearestUpgrade.section}: ` +
-                `${nearestUpgrade.name} ${nearestUpgrade.price.toLocaleString()} ` +
-                `- окупаемость: ${nearestUpgrade.paybackPeriod !== Infinity ? nearestUpgrade.paybackPeriod.toFixed(2) + ' ч.' : 'бесконечность'} ` +
+            `Ближайший доступный апгрейд: ${nearestUpgrade.section}: ` +
+              `${chalk.blue(nearestUpgrade.name)} ${chalk.yellow(nearestUpgrade.price.toLocaleString())} ` +
+              `- окупаемость: ${nearestUpgrade.paybackPeriod !== Infinity ? nearestUpgrade.paybackPeriod.toFixed(2) + ' ч.' : 'бесконечность'} ` +
+              chalk.blue(
                 `\n Время до покупки: ${hoursToBuy}ч ${minutesToBuy}м ${secondsLeft}с`
-            )
+              )
           )
 
           // Проверяем, пришло ли время покупать
@@ -127,7 +127,7 @@ async function main() {
     const maxMinutes = 30
     const randomMinutes =
       Math.floor(Math.random() * (maxMinutes - minMinutes + 1)) + minMinutes
-
+    // console.log('randomMinutes=', randomMinutes)
     // Ожидание случайное количество минут
     const waitTime = randomMinutes * 60 * 1000 // Преобразуем минуты в миллисекунды
     await new Promise((resolve) => setTimeout(resolve, waitTime))
