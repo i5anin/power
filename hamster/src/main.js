@@ -1,6 +1,11 @@
 import chalk from 'chalk'
 import { api } from './api.js'
 
+// console.log('API_KEY_1:', process.env.API_KEY_1)
+// console.log('API_KEY_2:', process.env.API_KEY_2)
+// console.log('API_KEY_3:', process.env.API_KEY_3)
+// console.log('API_KEY_4:', process.env.API_KEY_4)
+
 // Получаем актуальный баланс и информацию о пассивном доходе
 async function getBalance() {
   try {
@@ -17,7 +22,11 @@ async function main() {
     try {
       // Получаем актуальный баланс и информацию о пассивном доходе
       const clickerUser = await getBalance()
-      if (!clickerUser) continue // Если произошла ошибка при получении данных, пропускаем итерацию
+      if (!clickerUser) {
+        console.log(chalk.red('Не удалось получить данные о пользователе.'))
+        await new Promise((resolve) => setTimeout(resolve, 60 * 1000)) // Ожидание перед новой попыткой
+        continue
+      }
 
       const {
         balanceCoins: balance,
@@ -25,12 +34,16 @@ async function main() {
         earnPassivePerHour
       } = clickerUser
 
+      if (earnPassivePerSec == null || earnPassivePerHour == null) {
+        console.error('Недостаточно данных о пассивном доходе.')
+        await new Promise((resolve) => setTimeout(resolve, 60 * 1000)) // Ожидание перед новой попыткой
+        continue
+      }
+
       console.log(
         `[${new Date().toLocaleTimeString()}] ` +
-          `• Баланс: ` +
-          `${chalk.yellow(Math.round(balance).toLocaleString())} ` +
-          `• Прирост: ` +
-          `${chalk.yellow(earnPassivePerHour.toLocaleString())} в час ` +
+          `• Баланс: ${chalk.yellow(Math.round(balance).toLocaleString())} ` +
+          `• Прирост: ${chalk.yellow(earnPassivePerHour.toLocaleString())} в час ` +
           `${chalk.yellow(earnPassivePerSec.toLocaleString())} в сек `
       )
 
@@ -62,9 +75,8 @@ async function main() {
         const bestUpgrade = affordableUpgrades[0]
         const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1
         console.log(
-          `Покупаю ` +
-            `(место ${upgradeIndex} в топ-10):` +
-            `${bestUpgrade.section}: ${bestUpgrade.name} ${bestUpgrade.price}` +
+          `Покупаю (место ${upgradeIndex} в топ-10): ` +
+            `${bestUpgrade.section}: ${bestUpgrade.name} ${bestUpgrade.price} ` +
             `- окупаемость: ${bestUpgrade.paybackPeriod.toFixed(2)} ч.`
         )
         await api.buyUpgrade(bestUpgrade.id)
@@ -90,11 +102,7 @@ async function main() {
             chalk.blue(
               `Ближайший доступный апгрейд: ${nearestUpgrade.section}: ` +
                 `${nearestUpgrade.name} ${nearestUpgrade.price.toLocaleString()} ` +
-                `- окупаемость: ${
-                  nearestUpgrade.paybackPeriod !== Infinity
-                    ? nearestUpgrade.paybackPeriod.toFixed(2) + ' ч.'
-                    : 'бесконечность'
-                }` +
+                `- окупаемость: ${nearestUpgrade.paybackPeriod !== Infinity ? nearestUpgrade.paybackPeriod.toFixed(2) + ' ч.' : 'бесконечность'} ` +
                 `\n Время до покупки: ${hoursToBuy}ч ${minutesToBuy}м ${secondsLeft}с`
             )
           )
@@ -114,8 +122,15 @@ async function main() {
       console.error('Ошибка в главном цикле:', error)
     }
 
-    // Ждём 20 минут
-    await new Promise((resolve) => setTimeout(resolve, 20 * 60 * 1000))
+    // Генерируем случайное количество минут от 15 до 30
+    const minMinutes = 15
+    const maxMinutes = 30
+    const randomMinutes =
+      Math.floor(Math.random() * (maxMinutes - minMinutes + 1)) + minMinutes
+
+    // Ожидание случайное количество минут
+    const waitTime = randomMinutes * 60 * 1000 // Преобразуем минуты в миллисекунды
+    await new Promise((resolve) => setTimeout(resolve, waitTime))
   }
 }
 

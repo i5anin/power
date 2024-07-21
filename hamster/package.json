@@ -4,8 +4,11 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon src/main.js",
-    "lint": "eslint src"
+    "start": "concurrently \"npm run start:1\" \"npm run start:2\" \"npm run start:3\" \"npm run start:4\"",
+    "start:1": "cross-env PROCESS_NUMBER=1 API_KEY_1=1721286018267pTT5u2xltkvWbpvEjmFYIxFK3cD3RyOEkr05QjSRzmbLucVnu5PcWU9PsgUJCnT5390895078 node src/main.js",
+    "start:2": "cross-env PROCESS_NUMBER=2 API_KEY_2=1721289506775rN4EWfZj6fAYcxzC8rGYhdQGaFHCdHTGKA2Q3PrJ2nB2DlGsP0LXpxFSEWpTFZBL6522743169 node src/main.js",
+    "start:3": "cross-env PROCESS_NUMBER=3 API_KEY_3=17214811846816Hd8GWDg5B7XlEvIctB0ug6fZ8FM1MkptdjB8u3Q419jD76RwhUuGppYH6sYecfc5049295393 node src/main.js",
+    "start:4": "cross-env PROCESS_NUMBER=4 API_KEY_4=1721482056194uJeibR33lSGZeEuhP8cE04bUkQ8OmGal1waLdClVMoShYLRQHPJkCwN5ks6Cq8ue6268440648 node src/main.js"
   },
   "imports": {
     "#src/*": "./src/*.js"
@@ -16,6 +19,8 @@
     "cli-table": "^0.3.11"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "eslint": "^9.7.0",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3"

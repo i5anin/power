@@ -1,15 +1,23 @@
-// api.js
-
 import axios from 'axios'
 import { headers } from './config.js'
 
+// Определите переменную API_URL
 const WEB_URL = 'https://api.hamsterkombatgame.io/clicker'
 
+// Определите переменную окружения для API_KEY
+const processNumber = process.env.PROCESS_NUMBER
+const apiKey = process.env[`API_KEY_${processNumber}`]
+
+// Создайте экземпляр axios с правильными заголовками
 const axiosInstance = axios.create({
   baseURL: WEB_URL,
-  headers: headers
+  headers: {
+    ...headers,
+    Authorization: `Bearer ${apiKey}` // Используем соответствующий ключ API
+  }
 })
 
+// Экспортируйте объект api с методами
 export const api = {
   tap: async () => {
     try {
