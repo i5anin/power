@@ -17,10 +17,8 @@ async function main() {
     try {
       // Получаем актуальный баланс и информацию о пассивном доходе
       const clickerUser = await getBalance()
-      if (!clickerUser) {
-        // Если произошла ошибка при получении данных, пропускаем итерацию
-        continue
-      }
+      if (!clickerUser) continue // Если произошла ошибка при получении данных, пропускаем итерацию
+
       const {
         balanceCoins: balance,
         earnPassivePerSec,
@@ -29,8 +27,11 @@ async function main() {
 
       console.log(
         `[${new Date().toLocaleTimeString()}] ` +
-          `Баланс: ` +
-          `${chalk.yellow(balance.toFixed())}`
+          `• Баланс: ` +
+          `${chalk.yellow(Math.round(balance).toLocaleString())} ` +
+          `• Прирост: ` +
+          `${chalk.yellow(earnPassivePerHour.toLocaleString())} в час ` +
+          `${chalk.yellow(earnPassivePerSec.toLocaleString())} в сек `
       )
 
       // Получаем список доступных апгрейдов
@@ -88,7 +89,7 @@ async function main() {
           console.log(
             chalk.blue(
               `Ближайший доступный апгрейд: ${nearestUpgrade.section}: ` +
-                `${nearestUpgrade.name} ${nearestUpgrade.price} ` +
+                `${nearestUpgrade.name} ${nearestUpgrade.price.toLocaleString()} ` +
                 `- окупаемость: ${
                   nearestUpgrade.paybackPeriod !== Infinity
                     ? nearestUpgrade.paybackPeriod.toFixed(2) + ' ч.'
@@ -106,7 +107,7 @@ async function main() {
     }
 
     // Ждём 6 секунд
-    await new Promise((resolve) => setTimeout(resolve, 0.1 * 6 * 1000))
+    await new Promise((resolve) => setTimeout(resolve, 6 * 1000))
   }
 }
 
