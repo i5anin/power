@@ -1,51 +1,69 @@
 import axios from "axios";
-import chalk from "chalk"; // Библиотека для цветного вывода в консоль
 import { headers } from "./config.js";
 
-// --- Упрощение логики с помощью Axios ---
+let currentBalance = null;
 
-// Создаем экземпляр Axios с базовыми настройками
-const api = axios.create({
-  baseURL: "https://api.hamsterkombatgame.io/clicker", // Базовый URL API
-  method: "POST", // Метод по умолчанию
-  headers: headers
-});
+const options = {
+  url: "https://api.hamsterkombatgame.io/clicker/tap",
+  method: "POST",
+  headers: headers,
+  data: {
+    availableTaps: 0,
+    count: 12500 / 22,
+    timestamp: Math.floor(Date.now() / 1000)
+  }
+};
 
-// --- Функции для работы с API ---
-
-// Получение баланса
-async function getBalance() {
+async function sendRequest() {
   try {
-    const response = await api.post("/tap", {
-      // Используем api экземпляр
-      availableTaps: 0,
-      count: 12500 / 22,
-      timestamp: Math.floor(Date.now() / 1000)
-    });
-    return response.data.clickerUser.balanceCoins;
+    const response = await axios(options);
+    currentBalance = response.data.clickerUser.balanceCoins; // Обновляем текущий баланс
+    return currentBalance;
   } catch (error) {
-    console.error("Ошибка получения баланса:", error);
-    throw error; // Пробрасываем ошибку дальше
+    console.error("Ошибка выполнения запроса:", error);
+    throw error;
   }
 }
 
-// Получение списка апгрейдов
+// Функция для получения баланса
+export async function getBalance() {
+  if (currentBalance === null) {
+    try {
+      currentBalance = await sendRequest();
+    } catch (error) {
+      console.error("Ошибка получения баланса:", error);
+      return null;
+    }
+  }
+  return currentBalance;
+}
+
+// Функция для получения списка апгрейдов
 async function getUpgradesForBuy() {
   try {
-    const response = await api.post("/upgrades-for-buy");
-    return response.data.upgradesForBuy;
+    const response = await axios({
+      url: "https://api.hamsterkombatgame.io/clicker/upgrades-for-buy",
+      method: "POST",
+      headers: headers
+    });
+    return response.data;
   } catch (error) {
     console.error("Ошибка получения списка апгрейдов:", error);
     throw error;
   }
 }
 
-// Покупка апгрейда
+// Функция для покупки апгрейда
 async function buyUpgrade(upgradeId) {
   try {
-    const response = await api.post("/buy-upgrade", {
-      upgradeId,
-      timestamp: Math.floor(Date.now() / 1000)
+    const response = await axios({
+      url: "https://api.hamsterkombatgame.io/clicker/buy-upgrade",
+      method: "POST",
+      headers: headers,
+      data: {
+        upgradeId: upgradeId,
+        timestamp: Math.floor(Date.now() / 1000)
+      }
     });
     return response.data;
   } catch (error) {
@@ -54,8 +72,7 @@ async function buyUpgrade(upgradeId) {
   }
 }
 
-// --- Основной цикл ---
-
+// Основной цикл для покупки апгрейдов
 async function main() {
   while (true) {
     try {
@@ -64,15 +81,14 @@ async function main() {
         `Текущий баланс: ${balance} (Дата и время: ${new Date().toLocaleString()})`
       );
 
-      const availableUpgrades = await getUpgradesForBuy();
-      const affordableUpgrades = availableUpgrades
+      const data = await getUpgradesForBuy();
+      const availableUpgrades = data.upgradesForBuy
         .filter(
           (upgrade) =>
             (upgrade.cooldownSeconds === 0 ||
               upgrade.cooldownSeconds === undefined) &&
             upgrade.isAvailable &&
-            !upgrade.isExpired &&
-            upgrade.price <= balance // Фильтрация по цене здесь
+            !upgrade.isExpired
         )
         .map((upgrade) => ({
           ...upgrade,
@@ -81,13 +97,17 @@ async function main() {
             : Infinity
         }))
         .sort((a, b) => a.paybackPeriod - b.paybackPeriod)
-        .slice(0, 25);
+        .slice(0, 10); // Рассматриваем только топ-10 апгрейдов по периоду окупаемости
+
+      const affordableUpgrades = availableUpgrades.filter(
+        (upgrade) => upgrade.price <= balance
+      );
 
       if (affordableUpgrades.length > 0) {
         const bestUpgrade = affordableUpgrades[0];
-        const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1;
+        const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1; // Индекс начинается с 1
         console.log(
-          `Покупаю (место ${upgradeIndex} в топ-25): ${bestUpgrade.section}: ${
+          `Покупаю (место ${upgradeIndex} в топ-10): ${bestUpgrade.section}: ${
             bestUpgrade.name
           } ${bestUpgrade.price} - окупаемость: ${
             bestUpgrade.paybackPeriod !== Infinity
@@ -95,27 +115,27 @@ async function main() {
               : "бесконечность"
           }`
         );
-        await buyUpgrade(bestUpgrade.id);
+        const buyResult = await buyUpgrade(bestUpgrade.id);
+        console.log("Результат покупки:", buyResult);
       } else {
-        console.log(
-          chalk.red(
-            " ! Нет доступных для покупки апгрейдов, подходящих по цене"
-          )
-        ); // Красный вывод
+        console.log("Нет доступных для покупки апгрейдов, подходящих по цене");
       }
     } catch (error) {
       console.error("Ошибка в главном цикле:", error);
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 5 * 60 * 1000)); // Пауза 5 минут
+    // Пауза перед следующей итерацией (5 минут)
+    await new Promise((resolve) => setTimeout(resolve, 0.1 * 60 * 1000)); // 5 минут * 60 секунд * 1000 миллисекунд
   }
 }
 
 main();
 
-// --- Дополнительные улучшения ---
-
-// 1. Использован `chalk` для цветного вывода в консоль.
-// 2. Создан экземпляр `axios` для упрощения запросов.
-// 3. Ошибки пробрасываются дальше для централизованной обработки.
-// 4. Улучшена читаемость кода.
+// Запускаем запросы каждые 25 минут
+setInterval(async () => {
+  try {
+    await sendRequest();
+  } catch (error) {
+    console.error("Ошибка при обновлении баланса:", error);
+  }
+}, 0.25 * 60 * 1000); // 25 минут
