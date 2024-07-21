@@ -98,6 +98,14 @@ async function main() {
                 `\n Время до покупки: ${hoursToBuy}ч ${minutesToBuy}м ${secondsLeft}с`
             )
           )
+
+          // Проверяем, пришло ли время покупать
+          if (hoursToBuy === 0 && minutesToBuy === 0 && secondsLeft <= 6) {
+            console.log(chalk.green('Пришло время покупать!'))
+            await api.buyUpgrade(nearestUpgrade.id)
+            // После покупки сбрасываем availableUpgrades, чтобы не пытаться купить тот же апгрейд снова
+            availableUpgrades.length = 0
+          }
         } else {
           console.log(chalk.blue('Нет апгрейдов для показа.'))
         }
