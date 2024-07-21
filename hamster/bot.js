@@ -1,10 +1,12 @@
 import axios from "axios";
 import { headers } from "./config.js";
+import chalk from "chalk";
 
 let currentBalance = null;
+const WEB_URL = "https://api.hamsterkombatgame.io/clicker";
 
 const options = {
-  url: "https://api.hamsterkombatgame.io/clicker/tap",
+  url: WEB_URL + "/tap",
   method: "POST",
   headers: headers,
   data: {
@@ -17,7 +19,7 @@ const options = {
 async function sendRequest() {
   try {
     const response = await axios(options);
-    currentBalance = response.data.clickerUser.balanceCoins; // Обновляем текущий баланс
+    currentBalance = response.data.clickerUser.balanceCoins;
     return currentBalance;
   } catch (error) {
     console.error("Ошибка выполнения запроса:", error);
@@ -25,7 +27,6 @@ async function sendRequest() {
   }
 }
 
-// Функция для получения баланса
 export async function getBalance() {
   if (currentBalance === null) {
     try {
@@ -38,11 +39,10 @@ export async function getBalance() {
   return currentBalance;
 }
 
-// Функция для получения списка апгрейдов
 async function getUpgradesForBuy() {
   try {
     const response = await axios({
-      url: "https://api.hamsterkombatgame.io/clicker/upgrades-for-buy",
+      url: WEB_URL + "/upgrades-for-buy",
       method: "POST",
       headers: headers
     });
@@ -53,11 +53,10 @@ async function getUpgradesForBuy() {
   }
 }
 
-// Функция для покупки апгрейда
 async function buyUpgrade(upgradeId) {
   try {
     const response = await axios({
-      url: "https://api.hamsterkombatgame.io/clicker/buy-upgrade",
+      url: WEB_URL + "/buy-upgrade",
       method: "POST",
       headers: headers,
       data: {
@@ -72,13 +71,14 @@ async function buyUpgrade(upgradeId) {
   }
 }
 
-// Основной цикл для покупки апгрейдов
 async function main() {
   while (true) {
     try {
       const balance = await getBalance();
       console.log(
-        `Текущий баланс: ${balance} (Дата и время: ${new Date().toLocaleString()})`
+        `Текущий баланс: ${chalk.yellow(
+          balance.toFixed()
+        )} (Время: ${new Date().toLocaleTimeString()})`
       );
 
       const data = await getUpgradesForBuy();
@@ -97,7 +97,7 @@ async function main() {
             : Infinity
         }))
         .sort((a, b) => a.paybackPeriod - b.paybackPeriod)
-        .slice(0, 10); // Рассматриваем только топ-10 апгрейдов по периоду окупаемости
+        .slice(0, 10);
 
       const affordableUpgrades = availableUpgrades.filter(
         (upgrade) => upgrade.price <= balance
@@ -105,7 +105,7 @@ async function main() {
 
       if (affordableUpgrades.length > 0) {
         const bestUpgrade = affordableUpgrades[0];
-        const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1; // Индекс начинается с 1
+        const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1;
         console.log(
           `Покупаю (место ${upgradeIndex} в топ-10): ${bestUpgrade.section}: ${
             bestUpgrade.name
@@ -118,24 +118,24 @@ async function main() {
         const buyResult = await buyUpgrade(bestUpgrade.id);
         console.log("Результат покупки:", buyResult);
       } else {
-        console.log("Нет доступных для покупки апгрейдов, подходящих по цене");
+        console.log(
+          chalk.red("Нет доступных для покупки апгрейдов, подходящих по цене")
+        );
       }
     } catch (error) {
       console.error("Ошибка в главном цикле:", error);
     }
 
-    // Пауза перед следующей итерацией (5 минут)
-    await new Promise((resolve) => setTimeout(resolve, 0.1 * 60 * 1000)); // 5 минут * 60 секунд * 1000 миллисекунд
+    await new Promise((resolve) => setTimeout(resolve, 0.1 * 60 * 1000));
   }
 }
 
 main();
 
-// Запускаем запросы каждые 25 минут
 setInterval(async () => {
   try {
     await sendRequest();
   } catch (error) {
     console.error("Ошибка при обновлении баланса:", error);
   }
-}, 0.25 * 60 * 1000); // 25 минут
+}, 0.25 * 60 * 1000);
