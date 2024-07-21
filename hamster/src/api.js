@@ -13,7 +13,6 @@ const axiosInstance = axios.create({
 export const api = {
   tap: async () => {
     try {
-      console.log('запрос API tap')
       const response = await axiosInstance.post('/tap', {
         availableTaps: 0,
         count: 12500 / 22,

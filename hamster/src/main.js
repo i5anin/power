@@ -1,24 +1,32 @@
 import chalk from 'chalk'
 import { api } from './api.js'
 
-let currentBalance = null
-
-// Получаем актуальный баланс, вызывая api.tap()
+// Получаем актуальный баланс и информацию о пассивном доходе
 async function getBalance() {
   try {
     const response = await api.tap()
-    currentBalance = response.clickerUser.balanceCoins
+    return response.clickerUser // Возвращаем весь объект clickerUser
   } catch (error) {
     console.error('Ошибка при обновлении баланса:', error)
+    return null
   }
-  return currentBalance
 }
 
 async function main() {
   while (true) {
     try {
-      // Получаем актуальный баланс
-      const balance = await getBalance()
+      // Получаем актуальный баланс и информацию о пассивном доходе
+      const clickerUser = await getBalance()
+      if (!clickerUser) {
+        // Если произошла ошибка при получении данных, пропускаем итерацию
+        continue
+      }
+      const {
+        balanceCoins: balance,
+        earnPassivePerSec,
+        earnPassivePerHour
+      } = clickerUser
+
       console.log(
         `[${new Date().toLocaleTimeString()}] ` +
           `Баланс: ` +
@@ -71,6 +79,12 @@ async function main() {
 
         // Выводим информацию о ближайшем апгрейде
         if (nearestUpgrade) {
+          const priceDifference = nearestUpgrade.price - balance
+          const secondsToBuy = Math.ceil(priceDifference / earnPassivePerSec)
+          const hoursToBuy = Math.floor(secondsToBuy / 3600)
+          const minutesToBuy = Math.floor((secondsToBuy % 3600) / 60)
+          const secondsLeft = secondsToBuy % 60
+
           console.log(
             chalk.blue(
               `Ближайший доступный апгрейд: ${nearestUpgrade.section}: ` +
@@ -79,7 +93,8 @@ async function main() {
                   nearestUpgrade.paybackPeriod !== Infinity
                     ? nearestUpgrade.paybackPeriod.toFixed(2) + ' ч.'
                     : 'бесконечность'
-                }`
+                }` +
+                `\n Время до покупки: ${hoursToBuy}ч ${minutesToBuy}м ${secondsLeft}с`
             )
           )
         } else {
@@ -91,7 +106,7 @@ async function main() {
     }
 
     // Ждём 6 секунд
-    await new Promise((resolve) => setTimeout(resolve, 6 * 1000))
+    await new Promise((resolve) => setTimeout(resolve, 0.1 * 6 * 1000))
   }
 }
 
