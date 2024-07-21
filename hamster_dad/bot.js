@@ -172,7 +172,7 @@ async function main() {
     }
 
     // Пауза перед следующей итерацией Каждые 15 минут
-    await new Promise((resolve) => setTimeout(resolve, 1 * 60 * 1000)); // 15 минут * 60 секунд * 1000 миллисекунд
+    await new Promise((resolve) => setTimeout(resolve, 0.01 * 60 * 1000)); // 15 минут * 60 секунд * 1000 миллисекунд
   }
 }
 
