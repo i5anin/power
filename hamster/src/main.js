@@ -114,8 +114,8 @@ async function main() {
       console.error('Ошибка в главном цикле:', error)
     }
 
-    // Ждём 6 секунд
-    await new Promise((resolve) => setTimeout(resolve, 6 * 1000))
+    // Ждём 20 минут
+    await new Promise((resolve) => setTimeout(resolve, 20 * 60 * 1000))
   }
 }
 
