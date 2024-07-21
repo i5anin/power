@@ -109,11 +109,9 @@ async function main() {
         console.log(
           `Покупаю (место ${upgradeIndex} в топ-10): ${bestUpgrade.section}: ${
             bestUpgrade.name
-          } ${bestUpgrade.price} - окупаемость: ${
-            bestUpgrade.paybackPeriod !== Infinity
-              ? bestUpgrade.paybackPeriod.toFixed(2) + " ч."
-              : "бесконечность"
-          }`
+          } ${
+            bestUpgrade.price
+          } - окупаемость: ${bestUpgrade.paybackPeriod.toFixed(2)} ч.`
         );
         const buyResult = await buyUpgrade(bestUpgrade.id);
         console.log("Результат покупки:", buyResult);
