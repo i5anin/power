@@ -21,6 +21,8 @@ const axiosInstance = axios.create({
 export const api = {
   tap: async () => {
     try {
+      // Задержка перед вызовом API
+      await new Promise((resolve) => setTimeout(resolve, 1500)); // 1,5 секунды
       console.log('Вызов API tap')
       const response = await axiosInstance.post('/tap', {
         availableTaps: 0,
@@ -35,6 +37,7 @@ export const api = {
   },
   getUpgradesForBuy: async () => {
     try {
+      await new Promise((resolve) => setTimeout(resolve, 1500)); // 1,5 секунды
       const response = await axiosInstance.post('/upgrades-for-buy')
       return response.data
     } catch (error) {
@@ -44,6 +47,7 @@ export const api = {
   },
   buyUpgrade: async (upgradeId) => {
     try {
+      await new Promise((resolve) => setTimeout(resolve, 1500)); // 1,5 секунды
       const response = await axiosInstance.post('/buy-upgrade', {
         upgradeId: upgradeId,
         timestamp: Math.floor(Date.now() / 1000)

@@ -21,14 +21,14 @@ async function main() {
   while (true) {
     try {
       // Получаем актуальный баланс и информацию о пассивном доходе
-      const clickerUser = await getBalance()
+      let clickerUser = await getBalance()
       if (!clickerUser) {
         console.log(chalk.red('Не удалось получить данные о пользователе.'))
-        await new Promise((resolve) => setTimeout(resolve, 60 * 1000)) // Ожидание перед новой попыткой
+        await new Promise((resolve) => setTimeout(resolve,  1500)) // Ожидание перед новой попыткой
         continue
       }
 
-      const {
+      let {
         balanceCoins: balance,
         earnPassivePerSec,
         earnPassivePerHour
@@ -46,6 +46,8 @@ async function main() {
         `• Прирост: ${chalk.yellow(earnPassivePerHour.toLocaleString())} в час ` +
         `${chalk.yellow(earnPassivePerSec.toLocaleString())} в сек `
       )
+
+
 
       // Получаем список доступных апгрейдов
       const data = await api.getUpgradesForBuy()
@@ -72,28 +74,46 @@ async function main() {
 
       // Если есть доступные апгрейды, покупаем лучший
       if (affordableUpgrades.length > 0) {
-        const bestUpgrade = affordableUpgrades[0]
-        const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1
-        console.log(
-          chalk.magenta(`Покупаю (место ${upgradeIndex} в топ-10): `) +
-          `${bestUpgrade.section}: ${bestUpgrade.name} ${chalk.yellow(bestUpgrade.price.toLocaleString())} ` +
-          `- окупаемость: ${chalk.blue(bestUpgrade.paybackPeriod.toFixed(2))} ч.`
-        )
+        let upgradePurchased = false; // Флаг, отслеживающий успешную покупку
 
-        try {
-          const buyResult = await api.buyUpgrade(bestUpgrade.id)
-          // Проверяем, был ли успешный ответ
-          if (buyResult.clickerUser && buyResult.clickerUser.upgrades) {
-            console.log(chalk.green('Апгрейд куплен успешно!'))
-          } else if (buyResult.error_code === 'INSUFFICIENT_FUNDS') {
-            console.log(chalk.red(`Ошибка: Недостаточно средств для покупки.`))
-          } else {
-            console.log(chalk.red(`Ошибка при покупке апгрейда: ${JSON.stringify(buyResult, null, 2)}`))
+        while (affordableUpgrades.length > 0 && !upgradePurchased) {
+          const bestUpgrade = affordableUpgrades[0];
+          const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1;
+          console.log(
+            chalk.magenta(`Покупаю (место ${upgradeIndex} в топ-10): `) +
+            `${bestUpgrade.section}: ${bestUpgrade.name} ${chalk.yellow(bestUpgrade.price.toLocaleString())} ` +
+            `- окупаемость: ${chalk.blue(bestUpgrade.paybackPeriod.toFixed(2))} ч.`
+          );
+
+          try {
+            const buyResult = await api.buyUpgrade(bestUpgrade.id);
+            // Проверяем, был ли успешный ответ
+            if (buyResult.clickerUser && buyResult.clickerUser.upgrades) {
+              console.log(chalk.green('Апгрейд куплен успешно!'));
+              upgradePurchased = true; // Успешная покупка, выходим из цикла
+            } else if (buyResult.error_code === 'INSUFFICIENT_FUNDS') {
+              console.log(chalk.red(`Ошибка: Недостаточно средств для покупки.`));
+              affordableUpgrades.shift(); // Удаляем апгрейд из списка доступных
+            } else {
+              console.log(chalk.red(`Ошибка при покупке апгрейда: ${JSON.stringify(buyResult, null, 2)}`));
+              affordableUpgrades.shift(); // Удаляем апгрейд из списка доступных
+            }
+          } catch (error) {
+            console.error(chalk.red(`Ошибка при покупке апгрейда: ${error}`));
+            affordableUpgrades.shift(); // Удаляем апгрейд из списка доступных
           }
-        } catch (error) {
-          console.error(chalk.red(`Ошибка при покупке апгрейда: ${error}`))
         }
 
+        // После покупки апгрейда (успешной или неуспешной), обновляем баланс
+        clickerUser = await getBalance();
+        if (!clickerUser) {
+          console.log(chalk.red('Не удалось получить данные о пользователе.'))
+          await new Promise((resolve) => setTimeout(resolve, 60 * 1000)) // Ожидание перед новой попыткой
+          continue
+        }
+        balance = clickerUser.balanceCoins;
+        earnPassivePerSec = clickerUser.earnPassivePerSec;
+        earnPassivePerHour = clickerUser.earnPassivePerHour;
       } else {
         console.log(
           chalk.red('Нет доступных для покупки апгрейдов, подходящих по цене')
@@ -121,12 +141,10 @@ async function main() {
             )
           )
 
-          // Проверяем, пришло ли время покупать
-          if (hoursToBuy === 0 && minutesToBuy === 0 && secondsLeft <= 6) {
-            console.log(chalk.green('Пришло время покупать!'))
-            await api.buyUpgrade(nearestUpgrade.id)
-            // После покупки сбрасываем availableUpgrades, чтобы не пытаться купить тот же апгрейд снова
-            availableUpgrades.length = 0
+          // Ожидание, пока не станет достаточно денег
+          if (hoursToBuy > 0 || minutesToBuy > 0 || secondsLeft > 6) {
+            await new Promise((resolve) => setTimeout(resolve, secondsLeft * 1000));
+            continue; // Продолжаем цикл
           }
         } else {
           console.log(chalk.blue('Нет апгрейдов для показа.'))
