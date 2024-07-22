@@ -82,8 +82,8 @@ async function main() {
 
         try {
           const buyResult = await api.buyUpgrade(bestUpgrade.id)
-          console.log('результат=',buyResult)
-          if (buyResult === 200) {
+          // Проверяем, был ли успешный ответ
+          if (buyResult.clickerUser && buyResult.clickerUser.upgrades) {
             console.log(chalk.green('Апгрейд куплен успешно!'))
           } else {
             console.log(chalk.red(`Ошибка при покупке апгрейда: ${JSON.stringify(buyResult, null, 2)}`))
