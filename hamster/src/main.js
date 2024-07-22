@@ -42,9 +42,9 @@ async function main() {
 
       console.log(
         `[${new Date().toLocaleTimeString()}] ` +
-          `• Баланс: ${chalk.yellow(Math.round(balance).toLocaleString())} ` +
-          `• Прирост: ${chalk.yellow(earnPassivePerHour.toLocaleString())} в час ` +
-          `${chalk.yellow(earnPassivePerSec.toLocaleString())} в сек `
+        `• Баланс: ${chalk.yellow(Math.round(balance).toLocaleString())} ` +
+        `• Прирост: ${chalk.yellow(earnPassivePerHour.toLocaleString())} в час ` +
+        `${chalk.yellow(earnPassivePerSec.toLocaleString())} в сек `
       )
 
       // Получаем список доступных апгрейдов
@@ -76,10 +76,22 @@ async function main() {
         const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1
         console.log(
           chalk.magenta(`Покупаю (место ${upgradeIndex} в топ-10): `) +
-            `${bestUpgrade.section}: ${bestUpgrade.name} ${chalk.yellow(bestUpgrade.price.toLocaleString())} ` +
-            `- окупаемость: ${chalk.blue(bestUpgrade.paybackPeriod.toFixed(2))} ч.`
+          `${bestUpgrade.section}: ${bestUpgrade.name} ${chalk.yellow(bestUpgrade.price.toLocaleString())} ` +
+          `- окупаемость: ${chalk.blue(bestUpgrade.paybackPeriod.toFixed(2))} ч.`
         )
-        await api.buyUpgrade(bestUpgrade.id)
+
+        try {
+          const buyResult = await api.buyUpgrade(bestUpgrade.id)
+          console.log('результат=',buyResult)
+          if (buyResult === 200) {
+            console.log(chalk.green('Апгрейд куплен успешно!'))
+          } else {
+            console.log(chalk.red(`Ошибка при покупке апгрейда: ${JSON.stringify(buyResult, null, 2)}`))
+          }
+        } catch (error) {
+          console.error(chalk.red(`Ошибка при покупке апгрейда: ${error}`))
+        }
+
       } else {
         console.log(
           chalk.red('Нет доступных для покупки апгрейдов, подходящих по цене')
@@ -100,11 +112,11 @@ async function main() {
 
           console.log(
             `Ближайший доступный апгрейд: ${nearestUpgrade.section}: ` +
-              `${chalk.blue(nearestUpgrade.name)} ${chalk.yellow(nearestUpgrade.price.toLocaleString())} ` +
-              `- окупаемость: ${nearestUpgrade.paybackPeriod !== Infinity ? nearestUpgrade.paybackPeriod.toFixed(2) + ' ч.' : 'бесконечность'} ` +
-              chalk.blue(
-                `\n Время до покупки: ${hoursToBuy}ч ${minutesToBuy}м ${secondsLeft}с`
-              )
+            `${chalk.blue(nearestUpgrade.name)} ${chalk.yellow(nearestUpgrade.price.toLocaleString())} ` +
+            `- окупаемость: ${nearestUpgrade.paybackPeriod !== Infinity ? nearestUpgrade.paybackPeriod.toFixed(2) + ' ч.' : 'бесконечность'} ` +
+            chalk.blue(
+              `\n Время до покупки: ${hoursToBuy}ч ${minutesToBuy}м ${secondsLeft}с`
+            )
           )
 
           // Проверяем, пришло ли время покупать
