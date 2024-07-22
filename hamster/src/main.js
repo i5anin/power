@@ -85,6 +85,8 @@ async function main() {
           // Проверяем, был ли успешный ответ
           if (buyResult.clickerUser && buyResult.clickerUser.upgrades) {
             console.log(chalk.green('Апгрейд куплен успешно!'))
+          } else if (buyResult.error_code === 'INSUFFICIENT_FUNDS') {
+            console.log(chalk.red(`Ошибка: Недостаточно средств для покупки.`))
           } else {
             console.log(chalk.red(`Ошибка при покупке апгрейда: ${JSON.stringify(buyResult, null, 2)}`))
           }
