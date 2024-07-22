@@ -42,9 +42,7 @@ async function main() {
         `${chalk.yellow(earnPassivePerSec.toLocaleString())} в сек `
       )
 
-      let upgradePurchased = false; // Флаг, отслеживающий успешную покупку
-
-      do {
+      while (true) {
         // Получаем список доступных апгрейдов
         const data = await api.getUpgradesForBuy()
         const availableUpgrades = data.upgradesForBuy
@@ -69,7 +67,6 @@ async function main() {
         )
 
         // Если есть доступные апгрейды, покупаем лучший
-        upgradePurchased = false;
         if (affordableUpgrades.length > 0) {
           const bestUpgrade = affordableUpgrades[0];
           const upgradeIndex = availableUpgrades.indexOf(bestUpgrade) + 1;
@@ -84,8 +81,13 @@ async function main() {
             // Проверяем, был ли успешный ответ
             if (buyResult.clickerUser && buyResult.clickerUser.upgrades) {
               console.log(chalk.green('Апгрейд куплен успешно!'));
-              upgradePurchased = true;
-              clickerUser = buyResult.clickerUser; // Обновляем данные пользователя
+              // Обновляем баланс после успешной покупки
+              clickerUser = await getBalance();
+              if (!clickerUser) {
+                console.log(chalk.red('Не удалось получить данные о пользователе.'))
+                await new Promise((resolve) => setTimeout(resolve, 60 * 1000)) // Ожидание перед новой попыткой
+                continue
+              }
               balance = clickerUser.balanceCoins;
               earnPassivePerSec = clickerUser.earnPassivePerSec;
               earnPassivePerHour = clickerUser.earnPassivePerHour;
@@ -98,17 +100,53 @@ async function main() {
               );
             } else if (buyResult.error_code === 'INSUFFICIENT_FUNDS') {
               console.log(chalk.red(`Ошибка: Недостаточно средств для покупки.`));
-              upgradePurchased = false;
+              affordableUpgrades.shift(); // Удаляем апгрейд из списка доступных
             } else {
               console.log(chalk.red(`Ошибка при покупке апгрейда: ${JSON.stringify(buyResult, null, 2)}`));
-              upgradePurchased = false;
+              affordableUpgrades.shift(); // Удаляем апгрейд из списка доступных
             }
           } catch (error) {
             console.error(chalk.red(`Ошибка при покупке апгрейда: ${error}`));
-            upgradePurchased = false;
+            affordableUpgrades.shift(); // Удаляем апгрейд из списка доступных
           }
+        } else {
+          console.log(
+            chalk.red('Нет доступных для покупки апгрейдов, подходящих по цене')
+          )
+
+          // Находим ближайший доступный апгрейд
+          const nearestUpgrade = availableUpgrades
+            .filter((upgrade) => upgrade.price > balance)
+            .sort((a, b) => a.price - b.price)[0]
+
+          // Выводим информацию о ближайшем апгрейде
+          if (nearestUpgrade) {
+            const priceDifference = nearestUpgrade.price - balance
+            const secondsToBuy = Math.ceil(priceDifference / earnPassivePerSec)
+            const hoursToBuy = Math.floor(secondsToBuy / 3600)
+            const minutesToBuy = Math.floor((secondsToBuy % 3600) / 60)
+            const secondsLeft = secondsToBuy % 60
+
+            console.log(
+              `Ближайший доступный апгрейд: ${nearestUpgrade.section}: ` +
+              `${chalk.blue(nearestUpgrade.name)} ${chalk.yellow(nearestUpgrade.price.toLocaleString())} ` +
+              `- окупаемость: ${nearestUpgrade.paybackPeriod !== Infinity ? nearestUpgrade.paybackPeriod.toFixed(2) + ' ч.' : 'бесконечность'} ` +
+              chalk.blue(
+                `\n Время до покупки: ${hoursToBuy}ч ${minutesToBuy}м ${secondsLeft}с`
+              )
+            )
+
+            // Ожидание, пока не станет достаточно денег
+            if (hoursToBuy > 0 || minutesToBuy > 0 || secondsLeft > 6) {
+              await new Promise((resolve) => setTimeout(resolve, secondsLeft * 1000));
+              continue; // Продолжаем цикл
+            }
+          } else {
+            console.log(chalk.blue('Нет апгрейдов для показа.'))
+          }
+          break; // Выходим из внутреннего цикла, если нет доступных апгрейдов
         }
-      } while (upgradePurchased);
+      }
 
       // Генерируем случайное количество минут от 15 до 30
       const minMinutes = 15
