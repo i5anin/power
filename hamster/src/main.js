@@ -86,7 +86,7 @@ async function runBot() {
               !upgrade.cooldownSeconds &&
               upgrade.isAvailable &&
               !upgrade.isExpired &&
-              upgrade.id !== 'top10_global' && upgrade.id !== 'special_hamster_conference' && upgrade.id !== 'tg_leaders'
+              !['top10_global', 'special_hamster_conference', 'tg_leaders'].includes(upgrade.id)
           )
           .map((upgrade) => ({
             ...upgrade,
