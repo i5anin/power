@@ -86,7 +86,7 @@ async function runBot() {
               !upgrade.cooldownSeconds &&
               upgrade.isAvailable &&
               !upgrade.isExpired &&
-              !['top10_global', 'special_hamster_conference', 'tg_leaders'].includes(upgrade.id)
+              !['top10_global', 'special_hamster_conference', 'tg_leaders', 'bitcoin_pizza_day'].includes(upgrade.id)
           )
           .map((upgrade) => ({
             ...upgrade,
