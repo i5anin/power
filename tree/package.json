@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "tree": "node tree.js"
+    "tree": "node tree.js",
+    "cove": "node cove.js"
   },
   "dependencies": {
     "chalk": "^4.0.0",
