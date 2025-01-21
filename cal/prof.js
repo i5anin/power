@@ -7,51 +7,39 @@ function formatDate(date) {
   return `${day}.${month}.${year}`;
 }
 
-function calculateDailyAccruedProfitDetailed(
-  money,
+function calculateMonthlyAccruedProfit(
+  initialMoney,
   annualRate,
   startDate,
   operationDates
 ) {
-  const dailyRate = annualRate / 100 / 365; // Дневная ставка
+  const dailyRate = annualRate / 100 / 366; // Дневная ставка с учётом високосного года
   const start = new Date(startDate);
   let logs = [];
-  let detailedLogs = [];
-  let current = new Date(start); // Текущая дата для начисления
   let totalProfit = 0;
+  let money = initialMoney;
 
   operationDates.forEach((operationDate, index) => {
-    const targetDate = new Date(operationDate); // Конечная дата текущего периода
-    let monthlyProfit = 0;
-    let startingAmount = money; // Сохраняем сумму на начало месяца
-    let dailyLogs = []; // Подробные логи для текущего месяца
+    const targetDate = new Date(operationDate);
+    const daysInPeriod = Math.round(
+      (targetDate - start) / (1000 * 60 * 60 * 24)
+    ); // Количество дней в периоде
 
-    // Рассчитываем доход за каждый день до целевой даты
-    while (current < targetDate) {
-      const dailyProfit = money * dailyRate; // Начисляем проценты за день
-      monthlyProfit += dailyProfit; // Суммируем в месячный доход
-      money += dailyProfit; // Увеличиваем базовую сумму
+    const periodProfit = money * dailyRate * daysInPeriod; // Доход за период
+    const endingAmount = money + periodProfit; // Итоговая сумма
 
-      // Логируем каждый день для текущего месяца
-      dailyLogs.push({
-        date: formatDate(current),
-        dailyProfit: dailyProfit.toFixed(2),
-        totalAmount: money.toFixed(2)
-      });
-
-      current.setDate(current.getDate() + 1); // Переход к следующему дню
-    }
-
-    // Логируем результат для текущего периода
     logs.push({
-      date: formatDate(targetDate),
-      monthlyProfit: monthlyProfit.toFixed(2),
-      startingAmount: startingAmount.toFixed(2),
-      totalAmount: money.toFixed(2),
-      dailyLogs
+      period: `Период ${index + 1}`,
+      startDate: formatDate(start),
+      endDate: formatDate(targetDate),
+      startingAmount: money.toFixed(2),
+      periodProfit: periodProfit.toFixed(2),
+      endingAmount: endingAmount.toFixed(2)
     });
 
-    totalProfit += monthlyProfit; // Суммируем в общий профит
+    totalProfit += periodProfit;
+    money = endingAmount; // Обновляем сумму для следующего периода
+    start.setTime(targetDate.getTime()); // Обновляем начальную дату
   });
 
   return { logs, totalProfit: totalProfit.toFixed(2) };
@@ -62,29 +50,23 @@ const deposit = {
   money: 50000,
   annualRate: 16.67, // Годовая ставка в процентах
   startDate: "2024-07-23",
-  operationDates: ["2024-08-23", "2024-09-23", "2024-10-23", "2024-11-23"] // Даты операций
+  operationDates: ["2024-08-23", "2024-09-23", "2024-10-23", "2024-11-23"]
 };
 
 // Расчёт
-const result = calculateDailyAccruedProfitDetailed(
+const result = calculateMonthlyAccruedProfit(
   deposit.money,
   deposit.annualRate,
   deposit.startDate,
   deposit.operationDates
 );
 
-// Вывод расчетов, разделенных на периоды
-result.logs.forEach((log, index) => {
-  console.log(`\nПериод ${index + 1}: ${log.date}`);
-  console.log(`Сумма на начало месяца: ${log.startingAmount}`);
-  console.log(`Доход за месяц: ${log.monthlyProfit}`);
-  console.log(`Сумма на конец месяца: ${log.totalAmount}`);
-  console.log("Подробный расчет по дням:");
-  log.dailyLogs.forEach((dailyLog) => {
-    console.log(
-      `  Дата: ${dailyLog.date}, Доход за день: ${dailyLog.dailyProfit}, Сумма на конец дня: ${dailyLog.totalAmount}`
-    );
-  });
+// Вывод расчётов
+result.logs.forEach((log) => {
+  console.log(`\n${log.period}:`);
+  console.log(`Сумма на начало периода: ${log.startingAmount}`);
+  console.log(`Доход за период: ${log.periodProfit}`);
+  console.log(`Сумма на конец периода: ${log.endingAmount}`);
 });
 
 // Итоговая строка
